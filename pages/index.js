@@ -1,3 +1,11 @@
+import Navbar from '~/components/Navbar/Navbar'
+import Form from '~/components/Form/Form'
+
 export default function Home() {
-  return <div>App</div>;
+  return (
+    <div className="bg-app-dark-blue min-h-screen">
+      <Navbar />
+      <Form />
+    </div>
+  )
 }
