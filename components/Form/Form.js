@@ -3,20 +3,23 @@ import { useForm } from 'react-hook-form'
 import Input from './Input'
 import AnswerInput from './AnswerInput/AnswerForm'
 import Seperator from './Seperator'
+import axios from 'axios'
 
 export default function Form() {
   const { register, handleSubmit, errors } = useForm()
 
   const onSubmit = useCallback(async (data) => {
-    console.log(data)
+    console.log('submitted')
+    try {
+      await axios.post(`/api/test`, null, {
+        params: { collection: 'test', question: data },
+      })
+    } catch (err) {
+      console.log(err)
+    }
   })
 
-  //   useEffect(
-  //     (err) => {
-  //       console.log(errors.answers)
-  //     },
-  //     [errors]
-  //   )
+  useEffect(() => {}, [])
 
   return (
     <div className="w-full p-4 text-center">
