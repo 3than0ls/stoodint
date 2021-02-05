@@ -3,7 +3,7 @@ import Form from '~/components/Form/Form'
 
 export default function Home() {
   return (
-    <div className="bg-app-dark-blue min-h-screen">
+    <div className="bg-app-gray min-h-screen">
       <Navbar />
       <Form />
     </div>

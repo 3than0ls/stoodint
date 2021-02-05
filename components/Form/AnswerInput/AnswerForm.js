@@ -29,7 +29,7 @@ export default function AnswerInput({ register, name, errors }) {
           className={`my-4 mr-4 p-4 rounded-2xl transition duration-300 focus:outline-none ${
             answerNum >= 6
               ? 'bg-app-light-gray cursor-default'
-              : 'bg-app-light-blue hover:bg-opacity-75'
+              : 'bg-app-light-blue-1 hover:bg-opacity-75'
           }`}
           onClick={increaseAnswers}
         >
@@ -39,7 +39,7 @@ export default function AnswerInput({ register, name, errors }) {
           className={`my-4 p-4 rounded-2xl transition duration-300 focus:outline-none ${
             answerNum <= 2
               ? 'bg-app-light-gray cursor-default'
-              : 'bg-app-light-blue hover:bg-opacity-75'
+              : 'bg-app-light-blue-1 hover:bg-opacity-75'
           }`}
           onClick={decreaseAnswers}
         >
