@@ -1,5 +1,6 @@
 import admin from 'firebase-admin'
 import serviceAccountConfig from './serviceAccount.js'
+import shortid from 'shortid'
 
 class Firebase {
   constructor() {
@@ -15,25 +16,37 @@ class Firebase {
     this.firestore = admin.firestore
   }
 
-  async getCollection(collection) {
-    const data = await this.firestore()
-      .collections('questions')
-      .collection(collection)
-      .get()
-    console.log(data)
-  }
-
-  async createQuestion(collection, question) {
+  async createQuestionSet(setData) {
     try {
-      const docRef = await this.firestore()
-        .collection('questions')
-        .collection(collection)
-        .add(question)
-      console.log('Document written with ID: ', docRef.id)
+      const id = shortid.generate()
+      await this.firestore().collection(`questionSets`).doc(id).set(setData)
+      // below is just to fill up the thing, just a placeholder
+      await this.createQuestion(id, {
+        tempPlaceholderKey: 'tempPlaceholderValue',
+      })
     } catch (err) {
       console.error('Error adding document: ', err)
     }
-    return docRef
+  }
+
+  async getQuestionSets() {
+    const data = await this.firestore().collection('questionSets').get()
+    const questionSets = []
+    for (let snapshot of data.docs) {
+      questionSets.push({ questionSetID: snapshot.id, ...snapshot.data() })
+    }
+    return questionSets
+  }
+
+  async createQuestion(questionSetID, question) {
+    try {
+      const docRef = await this.firestore()
+        .collection(`questionSets/${questionSetID}/questions`)
+        .add(question)
+      return docRef
+    } catch (err) {
+      console.error('Error adding document: ', err)
+    }
   }
 }
 

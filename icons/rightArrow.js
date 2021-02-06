@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function RightArrow() {
+export default function RightArrow({ color }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,7 +9,7 @@ export default function RightArrow() {
       viewBox="0 0 18 18"
     >
       <path
-        style={{ fill: '#ffffff' }}
+        style={{ fill: color || '#ffffff' }}
         d="M7.5 4.5L6.44 5.56 9.88 9l-3.44 3.44L7.5 13.5 12 9z"
       />
     </svg>

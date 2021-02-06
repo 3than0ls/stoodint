@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Label from '../Label'
-import Seperator from '../Seperator'
+import Label from '../../common/Label'
+import Seperator from '../../common/Seperator'
 import AnswerInputs from './AnswerInputs'
 import CorrectAnswerInput from './CorrectAnswerInput'
 

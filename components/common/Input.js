@@ -1,9 +1,16 @@
 import React from 'react'
 import Label from './Label'
 
-export default function Input({ register, label, placeholder, name, errors }) {
+export default function Input({
+  register,
+  label,
+  placeholder,
+  name,
+  errors,
+  ...props
+}) {
   return (
-    <div className="w-5/6 mx-auto flex flex-col">
+    <div className={`w-5/6 mx-auto flex flex-col ${props.className}`}>
       <Label label={label} />
       {errors[name] && (
         <div className="text-app-blue-2 text-left">This field is required</div>

@@ -1,21 +1,15 @@
 import React, { useEffect, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import Input from './Input'
+import Input from '../common/Input'
 import AnswerInput from './AnswerInput/AnswerForm'
-import Seperator from './Seperator'
-import axios from 'axios'
+import Seperator from '../common/Seperator'
+import axiosUtils from '~/utils/axios'
 
 export default function Form() {
   const { register, handleSubmit, errors } = useForm()
 
   const onSubmit = useCallback(async (data) => {
-    try {
-      await axios.post(`/api/test`, null, {
-        params: { collection: 'test', question: data },
-      })
-    } catch (err) {
-      console.log(err)
-    }
+    await axiosUtils.createQuestion('test', data)
   })
 
   return (
