@@ -9,7 +9,6 @@ export default function Form() {
   const { register, handleSubmit, errors } = useForm()
 
   const onSubmit = useCallback(async (data) => {
-    console.log('submitted')
     try {
       await axios.post(`/api/test`, null, {
         params: { collection: 'test', question: data },
@@ -18,8 +17,6 @@ export default function Form() {
       console.log(err)
     }
   })
-
-  useEffect(() => {}, [])
 
   return (
     <div className="w-full p-4 text-center">
@@ -38,7 +35,7 @@ export default function Form() {
           type="submit"
           value="Submit"
           className="my-4 py-4 px-24 rounded-2xl transition duration-300 focus:outline-none 
-                    bg-app-blue-1 mx-auto text-white cursor-pointer hover:bg-opacity-75 transition"
+                    bg-app-blue-1 mx-auto text-white cursor-pointer hover:bg-opacity-75"
         />
       </form>
     </div>

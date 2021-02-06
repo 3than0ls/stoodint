@@ -16,20 +16,24 @@ class Firebase {
   }
 
   async getCollection(collection) {
-    const data = await this.firestore().collection(collection).get()
+    const data = await this.firestore()
+      .collections('questions')
+      .collection(collection)
+      .get()
     console.log(data)
   }
 
-  createQuestion(collection, question) {
-    this.firestore()
-      .collection(collection)
-      .add(question)
-      .then((docRef) => {
-        console.log('Document written with ID: ', docRef.id)
-      })
-      .catch((error) => {
-        console.error('Error adding document: ', error)
-      })
+  async createQuestion(collection, question) {
+    try {
+      const docRef = await this.firestore()
+        .collection('questions')
+        .collection(collection)
+        .add(question)
+      console.log('Document written with ID: ', docRef.id)
+    } catch (err) {
+      console.error('Error adding document: ', err)
+    }
+    return docRef
   }
 }
 
