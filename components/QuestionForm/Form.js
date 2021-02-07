@@ -6,7 +6,7 @@ import Seperator from '../common/Seperator'
 import axiosUtils from '~/utils/axios'
 
 export default function Form() {
-  const { register, handleSubmit, errors } = useForm()
+  const { register, handleSubmit, errors, clearErrors } = useForm()
 
   const onSubmit = useCallback(async (data) => {
     await axiosUtils.createQuestion('test', data)
@@ -23,7 +23,11 @@ export default function Form() {
           errors={errors}
         />
         <Seperator />
-        <AnswerInput register={register} errors={errors} />
+        <AnswerInput
+          register={register}
+          errors={errors}
+          clearErrors={clearErrors}
+        />
         <Seperator />
         <input
           type="submit"

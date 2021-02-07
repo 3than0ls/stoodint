@@ -1,22 +1,36 @@
-import admin from 'firebase-admin'
+// import admin from 'firebase-admin'
 import serviceAccountConfig from './serviceAccount.js'
+import firebase from 'firebase'
+import 'firebase/storage'
+import firebaseConfig from './firebase.config.js'
 import shortid from 'shortid'
+import { v4 as uuidv4 } from 'uuid'
 
 class Firebase {
   constructor() {
-    if (!admin.apps.length) {
+    if (!firebase.apps.length) {
       try {
-        admin.initializeApp({
-          credential: admin.credential.cert(serviceAccountConfig),
-        })
+        // admin.initializeApp({
+        //   credential: admin.credential.cert(serviceAccountConfig),
+        // })
+        firebase.initializeApp(firebaseConfig)
       } catch (error) {
         console.log('Firebase admin initialization error', error.stack)
       }
     }
-    this.firestore = admin.firestore
+    this.firestore = firebase.firestore
+    // this.storage = firebase.storage()
   }
 
+  async uploadImage() {}
+
   async createQuestionSet(setData) {
+    console.log(file, setData)
+
+    if (setData.image) {
+      console.log('uploading file')
+      setData.image = await this.uploadImage(file)
+    }
     try {
       const id = shortid.generate()
       await this.firestore().collection(`questionSets`).doc(id).set(setData)

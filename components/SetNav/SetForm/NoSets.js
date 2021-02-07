@@ -11,8 +11,8 @@ export default function NoSets() {
         className={`${
           !makeNewSet
             ? 'opacity-100 translation-y-0'
-            : 'opacity-0 -translate-y-64 pointer-events-none'
-        } transition transform duration-500 m-auto w-full absolute`}
+            : 'opacity-0 translate-y-64 pointer-events-none'
+        } transition transform duration-500 m-auto w-full absolute bg-app-gray`}
       >
         <p className="text-4xl lg:text-5xl xl:text-6xl mt-24 mb-6 text-app-green ">
           Hmm... there are no available question sets.
@@ -30,8 +30,8 @@ export default function NoSets() {
         className={`${
           makeNewSet
             ? 'opacity-100 translation-y-0'
-            : 'opacity-0 translate-y-64 pointer-events-none'
-        } transition transform duration-500 w-full absolute`}
+            : 'opacity-0 -translate-y-64 pointer-events-none'
+        } transition transform duration-500 w-full absolute bg-app-gray`}
       >
         <MakeNewSet />
       </div>

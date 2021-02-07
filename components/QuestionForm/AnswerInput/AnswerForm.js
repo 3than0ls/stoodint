@@ -4,7 +4,7 @@ import Seperator from '../../common/Seperator'
 import AnswerInputs from './AnswerInputs'
 import CorrectAnswerInput from './CorrectAnswerInput'
 
-export default function AnswerInput({ register, name, errors }) {
+export default function AnswerInput({ register, clearErrors, errors }) {
   const [answerNum, setAnswerNum] = useState(2)
 
   const answers = () => {
@@ -14,9 +14,11 @@ export default function AnswerInput({ register, name, errors }) {
   }
 
   const increaseAnswers = () => {
+    clearErrors()
     setAnswerNum(Math.min(answerNum + 1, 6))
   }
   const decreaseAnswers = () => {
+    clearErrors()
     setAnswerNum(Math.max(answerNum - 1, 2))
   }
 

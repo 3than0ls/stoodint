@@ -4,7 +4,7 @@ export default function Navbar() {
   const [minimized, setMinimized] = React.useState(false)
   useEffect(() => {
     window.onscroll = () => {
-      setMinimized(window.scrollY > 200)
+      setMinimized(window.scrollY > 150)
     }
   }, [])
   return (

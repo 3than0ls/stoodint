@@ -18,9 +18,10 @@ export default function SetsNav({ questionSets }) {
     return setCards
   }
   return questionSets.length > 0 ? (
-    <div className="w-full flex flex-col items-center justify-evenly mt-8 lg:mt-16 xl:mt-20">
-      <SetCarousel generateSetCards={generateSetCards} />
-    </div>
+    // <div className="w-full flex flex-col items-center justify-evenly mt-8 lg:mt-16 xl:mt-20">
+    //   <SetCarousel generateSetCards={generateSetCards} />
+    // </div>
+    <NoSets />
   ) : (
     <NoSets />
   )

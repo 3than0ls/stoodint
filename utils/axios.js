@@ -5,9 +5,7 @@ class AxiosUtils {
 
   async createQuestionSet(setData) {
     try {
-      await axios.post(`/api/create/newQuestionSet`, null, {
-        params: { setData },
-      })
+      await axios.post(`/api/create/newQuestionSet`, setData)
     } catch (err) {
       console.log('Axios Utils Error:', err)
     }
@@ -15,8 +13,9 @@ class AxiosUtils {
 
   async createQuestion(questionSet, data) {
     try {
-      await axios.post(`/api/create/newQuestion`, null, {
-        params: { questionSet, question: data },
+      await axios.post(`/api/create/newQuestion`, {
+        questionSet,
+        question: data,
       })
     } catch (err) {
       console.log('Axios Utils Error:', err)

@@ -10,7 +10,7 @@ export default function CreateSetCard({ onClick }) {
         <img
           src="/innovation.png"
           alt="example"
-          className="w-full object-fill pt-4"
+          className="w-full object-cover pt-4"
         />
       </div>
     </button>
