@@ -1,10 +1,9 @@
-// import admin from 'firebase-admin'
-import serviceAccountConfig from './serviceAccount.js'
 import firebase from 'firebase'
 import 'firebase/storage'
 import firebaseConfig from './firebase.config.js'
 import shortid from 'shortid'
 import { v4 as uuidv4 } from 'uuid'
+import './polyfill.js'
 
 class Firebase {
   constructor() {
@@ -19,17 +18,25 @@ class Firebase {
       }
     }
     this.firestore = firebase.firestore
-    // this.storage = firebase.storage()
+    this.storage = firebase.storage
   }
 
-  async uploadImage() {}
+  async uploadImage(folder, dataUrl) {
+    const snapshot = await this.storage()
+      .ref()
+      .child(`${folder}/${uuidv4()}`)
+      .putString(dataUrl, 'data_url')
+    const downloadURL = await snapshot.ref.getDownloadURL()
+    return downloadURL
+  }
 
   async createQuestionSet(setData) {
-    console.log(file, setData)
-
-    if (setData.image) {
-      console.log('uploading file')
-      setData.image = await this.uploadImage(file)
+    if (setData.imageUrl) {
+      setData.bannerImage = await this.uploadImage(
+        'setBanners',
+        setData.imageUrl
+      )
+      delete setData.imageUrl
     }
     try {
       const id = shortid.generate()
@@ -53,6 +60,10 @@ class Firebase {
   }
 
   async createQuestion(questionSetID, question) {
+    if (question.imageUrl) {
+      question.image = await this.uploadImage('questions', question.imageUrl)
+      delete question.imageUrl
+    }
     try {
       const docRef = await this.firestore()
         .collection(`questionSets/${questionSetID}/questions`)

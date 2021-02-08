@@ -1,13 +1,22 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import Input from '~/components/common/Input'
-import Seperator from '~/components/common/Seperator'
+import Input from '../common/Input'
+import AnswerInput from './AnswerInput/AnswerForm'
+import Seperator from '../common/Seperator'
 import axiosUtils from '~/utils/axios'
 import { useDropzone } from 'react-dropzone'
 import ImageUpload from '~/components/common/ImageUpload'
 
-export default function SetForm() {
-  const { register, handleSubmit, errors, getValues, setValue } = useForm()
+export default function Form() {
+  const {
+    register,
+    handleSubmit,
+    errors,
+    clearErrors,
+    getValues,
+    setValue,
+  } = useForm()
+
   const [imagePreview, setImagePreview] = useState(undefined)
 
   const onDropAccepted = React.useCallback((acceptedFiles) => {
@@ -30,24 +39,16 @@ export default function SetForm() {
   })
 
   const onSubmit = useCallback(async (data) => {
-    await axiosUtils.createQuestionSet(data)
+    await axiosUtils.createQuestion('test', data)
   })
 
   return (
-    <div className="w-full p-4 text-center h-full">
+    <div className="w-full p-4 text-center">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
-          name="name"
-          label="Question Set Name"
-          placeholder="Set Name"
-          register={register}
-          errors={errors}
-        />
-        <Input
-          className="mt-6"
-          name="description"
-          label="Question Set Description"
-          placeholder="Set Description"
+          name="question"
+          label="Question"
+          placeholder="Input question"
           register={register}
           errors={errors}
         />
@@ -55,15 +56,21 @@ export default function SetForm() {
           getRootProps={getRootProps}
           getInputProps={getInputProps}
           errors={errors}
-          inputText="Optional. Drag or upload an image. Reccomended resolution: 1200x500"
+          inputText="Optional. Drag or upload an image."
           imagePreview={imagePreview}
-          label="Add a banner image"
+          label="Add an image to your question"
+        />
+        <Seperator />
+        <AnswerInput
+          register={register}
+          errors={errors}
+          clearErrors={clearErrors}
         />
         <Seperator />
         <input
           type="submit"
-          value="Create New Question Set"
-          className="my-4 py-4 px-24 text-2xl rounded-2xl transition duration-300 focus:outline-none 
+          value="Submit"
+          className="my-4 py-4 px-24 rounded-2xl transition duration-300 focus:outline-none 
                     bg-app-blue-1 mx-auto text-white cursor-pointer hover:bg-opacity-75"
         />
       </form>

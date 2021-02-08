@@ -1,5 +1,3 @@
-import Navbar from '~/components/Navbar/Navbar'
-import Form from '~/components/QuestionForm/Form'
 import SetsNav from '~/components/SetNav/SetsNav'
 import firebase from '~/firebase/Firebase'
 

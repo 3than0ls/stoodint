@@ -26,7 +26,9 @@ export default function ImageUpload({
         <input {...getInputProps({ name: 'image', accept: 'image/*' })} />
         <p className="text-xl">{inputText || 'Drag or upload files'}</p>
         <img
-          className={`w-full h-full object-cover ${imagePreview ? 'mt-8' : ''}`}
+          className={`w-full max-h-72 md:max-h-96 object-contain ${
+            imagePreview ? 'mt-8' : ''
+          }`}
           src={imagePreview}
         />
       </div>

@@ -1,5 +1,4 @@
-import Navbar from '~/components/Navbar/Navbar'
-import Form from '~/components/QuestionForm/Form'
+import Form from '~/components/QuestionForm/QuestionForm'
 
 export default function Home() {
   return (
