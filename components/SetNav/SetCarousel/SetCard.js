@@ -33,7 +33,11 @@ export default function SetCard({ setData }) {
             {name}
           </p>
         </div>
-        <img src="/example.jpg" alt="example" className="w-full object-cover" />
+        <img
+          src={setData.bannerImage || 'innovation.png'}
+          alt="banner"
+          className="w-full object-cover select-none"
+        />
       </div>
     </a>
   )

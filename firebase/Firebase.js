@@ -39,14 +39,16 @@ class Firebase {
       delete setData.imageUrl
     }
     try {
-      const id = shortid.generate()
-      await this.firestore().collection(`questionSets`).doc(id).set(setData)
-      // below is just to fill up the thing, just a placeholder
-      await this.createQuestion(id, {
-        tempPlaceholderKey: 'tempPlaceholderValue',
+      const questionSetID = shortid.generate()
+      await this.firestore()
+        .collection(`questionSets`)
+        .doc(questionSetID)
+        .set({ ...setData, questionSetID })
+      await this.createQuestion(questionSetID, {
+        /* questionID: question */
       })
     } catch (err) {
-      console.error('Error adding document: ', err)
+      console.error('Error creating question set: ', err)
     }
   }
 
@@ -64,10 +66,15 @@ class Firebase {
       question.image = await this.uploadImage('questions', question.imageUrl)
       delete question.imageUrl
     }
+    let value = {}
+    if (Object.keys(question).length > 0) {
+      value = { [shortid.generate()]: question }
+    }
     try {
       const docRef = await this.firestore()
-        .collection(`questionSets/${questionSetID}/questions`)
-        .add(question)
+        .collection(`questions`)
+        .doc(questionSetID)
+        .set(value)
       return docRef
     } catch (err) {
       console.error('Error adding document: ', err)
