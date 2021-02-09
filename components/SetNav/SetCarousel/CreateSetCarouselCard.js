@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function CreateSetCard({ onClick }) {
+export default function CreateSetCarouselCard({ onClick }) {
   return (
     <button onClick={onClick} className="focus:outline-none w-full">
       <div className="sm:h-72 xl:h-96 relative cursor-pointer">

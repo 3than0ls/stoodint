@@ -2,7 +2,7 @@ import React from 'react'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
 
-export default function SetCarousel({ generateSetCards }) {
+export default function SetCarousel({ generateSetCarouselCards }) {
   const config = {
     showArrows: true,
     showStatus: false,
@@ -18,8 +18,8 @@ export default function SetCarousel({ generateSetCards }) {
     centerSlidePercentage: 80,
   }
   return (
-    <Carousel className="" {...config}>
-      {generateSetCards()}
+    <Carousel className="shadow-xl z-40" {...config}>
+      {generateSetCarouselCards()}
     </Carousel>
   )
 }

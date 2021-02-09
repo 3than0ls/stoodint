@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function SetCard({ setData }) {
+export default function SetCarouselCard({ setData }) {
   const { name, description, questionSetID } = setData
   const [hovering, setHovering] = useState(false)
   return (
@@ -36,16 +36,9 @@ export default function SetCard({ setData }) {
         <img
           src={setData.bannerImage || 'innovation.png'}
           alt="banner"
-          className="w-full object-cover select-none"
+          className="w-full object-cover select-none pt-4"
         />
       </div>
     </a>
   )
 }
-
-/*
-    <a
-      href="/"
-      className="w-64 h-64 bg-white rounded-3xl shadow-2xl flex justify-center items-center border-app-green border-2 hover:border-8 transform transition duration-300 ease-in-out "
-    >
-    </a>*/
