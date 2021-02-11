@@ -14,11 +14,11 @@ export default function AnswerInput({ register, clearErrors, errors }) {
   }
 
   const increaseAnswers = () => {
-    clearErrors()
+    clearErrors() // this line doesnt do what i want it to do :(
     setAnswerNum(Math.min(answerNum + 1, 6))
   }
   const decreaseAnswers = () => {
-    clearErrors()
+    clearErrors() // this line doesnt do what i want it to do :(
     setAnswerNum(Math.max(answerNum - 1, 2))
   }
 

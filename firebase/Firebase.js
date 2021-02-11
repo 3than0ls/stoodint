@@ -14,11 +14,22 @@ class Firebase {
         // })
         firebase.initializeApp(firebaseConfig)
       } catch (error) {
-        console.log('Firebase admin initialization error', error.stack)
+        console.log('Firebase initialization error', error.stack)
       }
     }
     this.firestore = firebase.firestore
     this.storage = firebase.storage
+    this.auth = firebase.auth
+  }
+
+  async signInWithEmailAndPassword(data) {
+    const { email, password } = data
+    const userCreds = await this.auth().signInWithEmailAndPassword(
+      email,
+      password
+    )
+    const idToken = await userCreds.user.getIdToken()
+    return idToken
   }
 
   async uploadImage(folder, dataUrl) {
@@ -30,7 +41,7 @@ class Firebase {
     return downloadURL
   }
 
-  async createQuestionSet(setData) {
+  async createQuestionSet(uid, setData) {
     if (setData.imageUrl) {
       setData.bannerImage = await this.uploadImage(
         'setBanners',
@@ -38,18 +49,11 @@ class Firebase {
       )
       delete setData.imageUrl
     }
-    try {
-      const questionSetID = shortid.generate()
-      await this.firestore()
-        .collection(`questionSets`)
-        .doc(questionSetID)
-        .set({ ...setData, questionSetID })
-      await this.createQuestion(questionSetID, {
-        /* questionID: question */
-      })
-    } catch (err) {
-      console.error('Error creating question set: ', err)
-    }
+    const questionSetID = shortid.generate()
+    await this.firestore()
+      .collection(`questionSets`)
+      .doc(questionSetID)
+      .set({ ...setData, questionSetID, authorID: uid })
   }
 
   async getQuestionSets() {
@@ -61,24 +65,19 @@ class Firebase {
     return questionSets
   }
 
-  async createQuestion(questionSetID, question) {
+  async createQuestion(uid, questionSetID, question) {
     if (question.imageUrl) {
       question.image = await this.uploadImage('questions', question.imageUrl)
       delete question.imageUrl
     }
-    let value = {}
-    if (Object.keys(question).length > 0) {
-      value = { [shortid.generate()]: question }
-    }
-    try {
-      const docRef = await this.firestore()
-        .collection(`questions`)
-        .doc(questionSetID)
-        .set(value)
-      return docRef
-    } catch (err) {
-      console.error('Error adding document: ', err)
-    }
+    const docRef = await this.firestore()
+      .collection(`questions`)
+      .doc(questionSetID)
+      .set(
+        { [shortid.generate()]: { authorID: uid, question } },
+        { merge: true }
+      )
+    return docRef
   }
 }
 

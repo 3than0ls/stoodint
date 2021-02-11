@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import Input from '../common/Input'
 import AnswerInput from './AnswerInput/AnswerForm'
@@ -7,7 +7,7 @@ import axiosUtils from '~/utils/axios'
 import { useDropzone } from 'react-dropzone'
 import ImageUpload from '~/components/common/ImageUpload'
 
-export default function Form() {
+export default function QuestionForm() {
   const {
     register,
     handleSubmit,
@@ -17,6 +17,7 @@ export default function Form() {
     setValue,
   } = useForm()
 
+  const [authError, setAuthError] = useState(undefined)
   const [imagePreview, setImagePreview] = useState(undefined)
 
   const onDropAccepted = React.useCallback((acceptedFiles) => {
@@ -39,7 +40,11 @@ export default function Form() {
   })
 
   const onSubmit = useCallback(async (data) => {
-    await axiosUtils.createQuestion('test', data)
+    try {
+      await axiosUtils.createQuestion('test', data)
+    } catch (err) {
+      setAuthError('User ID Token not authorized. Re-login in and try again.')
+    }
   })
 
   return (
@@ -67,6 +72,11 @@ export default function Form() {
           clearErrors={clearErrors}
         />
         <Seperator />
+        {authError && (
+          <div className="text-app-purple my-4 lg:my-8 text-xl text-center">
+            {authError}
+          </div>
+        )}
         <input
           type="submit"
           value="Submit"

@@ -6,12 +6,12 @@ export default function SetCard({ setData }) {
   return (
     <div
       draggable="false"
-      className="relative bg-black text-white h-64 md:h-72 lg:h-96 w-3/4 md:w-1/2 max-w-2xl mt-12 mx-auto rounded-2xl shadow-xl hover:scale-105 transform transition duration-300 ease-in-out"
+      className="relative text-white h-64 md:h-72 lg:h-96 w-3/4 md:w-1/2 max-w-2xl mt-12 mx-12 rounded-2xl shadow-xl hover:scale-105 transform transition duration-300 ease-in-out"
     >
       <div
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
-        className="absolute z-20 bg-black rounded-t-xl w-full h-3/4 opacity-0 hover:bg-opacity-75 hover:opacity-100 transition duration-500"
+        className="absolute z-20 bg-black rounded-t-xl w-full h-4/5 opacity-0 hover:bg-opacity-75 hover:opacity-100 transition duration-500"
       >
         <div
           className={`${
@@ -23,16 +23,14 @@ export default function SetCard({ setData }) {
           <p className="mt-4 text-xl">Description: {setData.description}</p>
         </div>
       </div>
-      <a href={link} className="">
-        <img
-          src={setData.bannerImage}
-          alt="banner"
-          className="pt-4 pb-2 w-full h-3/4 object-contain bg-app-blue-1 rounded-t-xl shadow-inner"
-        />
-      </a>
+      <img
+        src={setData.bannerImage}
+        alt="banner"
+        className="pt-4 pb-2 w-full h-4/5 object-contain bg-app-blue-1 rounded-t-xl shadow-inner"
+      />
       <a
         href={link}
-        className="text-3xl px-4 h-1/4 flex items-center justify-start break-words hover:underline"
+        className="text-xl lg:text-2xl px-4 lg:px-6 h-1/5 flex items-center justify-start break-words hover:underline bg-black rounded-b-2xl hover:bg-opacity-75 transition duration-500"
         draggable="false"
       >
         {setData.name}
@@ -40,5 +38,3 @@ export default function SetCard({ setData }) {
     </div>
   )
 }
-
-/**/

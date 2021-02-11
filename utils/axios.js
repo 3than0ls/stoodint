@@ -1,25 +1,48 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 class AxiosUtils {
   constructor() {}
 
+  setIdToken(idToken) {
+    Cookies.set('idToken', idToken, { expires: 90 })
+    return idToken
+  }
+
+  getIdToken() {
+    return Cookies.get('idToken')
+  }
+
+  deleteIdToken() {
+    Cookies.remove('idToken')
+  }
+
+  async signInWithEmailAndPassword(data) {
+    const response = await axios.post(`/api/auth/login`, data)
+    const idToken = response.data
+    this.setIdToken(idToken)
+  }
+
+  async signOut() {
+    this.deleteIdToken()
+    await axios.get(`/api/auth/logout`)
+  }
+
   async createQuestionSet(setData) {
-    try {
-      await axios.post(`/api/create/newQuestionSet`, setData)
-    } catch (err) {
-      console.log('Axios Utils Error:', err)
-    }
+    await axios.post(`/api/create/newQuestionSet`, setData, {
+      withCredentials: true,
+    })
   }
 
   async createQuestion(questionSet, data) {
-    try {
-      await axios.post(`/api/create/newQuestion`, {
+    await axios.post(
+      `/api/create/newQuestion`,
+      {
         questionSet,
         question: data,
-      })
-    } catch (err) {
-      console.log('Axios Utils Error:', err)
-    }
+      },
+      { withCredentials: true }
+    )
   }
 }
 

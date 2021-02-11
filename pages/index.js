@@ -1,9 +1,10 @@
-import Form from '~/components/QuestionForm/QuestionForm'
+import LoginForm from '~/components/Auth/LoginForm'
+import QuestionForm from '~/components/QuestionForm/QuestionForm'
 
 export default function Home() {
   return (
     <div>
-      <Form />
+      <QuestionForm />
     </div>
   )
 }
