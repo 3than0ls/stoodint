@@ -1,5 +1,5 @@
 import SetsNav from '~/client/components/SetNav/SetsNav'
-import firebase from '~/firebase/Firebase'
+import firebase from '~/client/firebase/Firebase'
 
 export default function Sets({ questionSets }) {
   return (

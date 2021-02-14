@@ -14,7 +14,7 @@ export default function Navbar() {
           alt="stoodint"
         />
       </a>
-      {loggedIn ? <LoggedIn /> : <LoginButton />}
+      {loggedIn !== undefined && (loggedIn ? <LoggedIn /> : <LoginButton />)}
     </div>
   )
 }

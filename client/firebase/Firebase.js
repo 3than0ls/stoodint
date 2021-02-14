@@ -3,15 +3,11 @@ import 'firebase/storage'
 import firebaseConfig from './firebase.config.js'
 import shortid from 'shortid'
 import { v4 as uuidv4 } from 'uuid'
-import './polyfill.js'
 
 class Firebase {
   constructor() {
     if (!firebase.apps.length) {
       try {
-        // admin.initializeApp({
-        //   credential: admin.credential.cert(serviceAccountConfig),
-        // })
         firebase.initializeApp(firebaseConfig)
       } catch (error) {
         console.log('Firebase initialization error', error.stack)
@@ -22,38 +18,31 @@ class Firebase {
     this.auth = firebase.auth
   }
 
-  async signInWithEmailAndPassword(data) {
-    const { email, password } = data
+  async signOut() {
+    await this.auth().signOut()
+  }
+
+  async signInWithEmailAndPassword(email, password) {
     const userCreds = await this.auth().signInWithEmailAndPassword(
       email,
       password
     )
-    const idToken = await userCreds.user.getIdToken()
-    return idToken
   }
 
-  async uploadImage(folder, dataUrl) {
-    const snapshot = await this.storage()
-      .ref()
-      .child(`${folder}/${uuidv4()}`)
-      .putString(dataUrl, 'data_url')
-    const downloadURL = await snapshot.ref.getDownloadURL()
-    return downloadURL
-  }
-
-  async createQuestionSet(uid, setData) {
-    if (setData.imageUrl) {
-      setData.bannerImage = await this.uploadImage(
-        'setBanners',
-        setData.imageUrl
-      )
-      delete setData.imageUrl
+  async createQuestionSet(setData) {
+    if (setData.image) {
+      setData.bannerImage = await this.uploadImage('setBanners', setData.image)
+      delete setData.image
     }
     const questionSetID = shortid.generate()
     await this.firestore()
       .collection(`questionSets`)
       .doc(questionSetID)
-      .set({ ...setData, questionSetID, authorID: uid })
+      .set({
+        ...setData,
+        questionSetID,
+        authorID: this.auth().currentUser?.uid || 'anon',
+      })
   }
 
   async getQuestionSets() {
@@ -65,16 +54,29 @@ class Firebase {
     return questionSets
   }
 
-  async createQuestion(uid, questionSetID, question) {
-    if (question.imageUrl) {
-      question.image = await this.uploadImage('questions', question.imageUrl)
-      delete question.imageUrl
+  async uploadImage(folder, file) {
+    const snapshot = await this.storage()
+      .ref()
+      .child(`${folder}/${uuidv4()}`)
+      .put(file)
+    const downloadURL = await snapshot.ref.getDownloadURL()
+    return downloadURL
+  }
+
+  async createQuestion(questionSetID, question) {
+    if (question.image) {
+      question.image = await this.uploadImage('questions', question.image)
     }
     const docRef = await this.firestore()
       .collection(`questions`)
       .doc(questionSetID)
       .set(
-        { [shortid.generate()]: { authorID: uid, question } },
+        {
+          [shortid.generate()]: {
+            authorID: this.auth().currentUser?.uid || 'anon',
+            question,
+          },
+        },
         { merge: true }
       )
     return docRef

@@ -2,9 +2,9 @@ import React, { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Input from '~/client/components/common/Input'
 import Seperator from '~/client/components/common/Seperator'
-import axiosUtils from '~/client/utils/axios'
 import { useDropzone } from 'react-dropzone'
 import ImageUpload from '~/client/components/common/ImageUpload'
+import firebase from '~/client/firebase/Firebase'
 
 export default function SetForm() {
   const { register, handleSubmit, errors, getValues, setValue } = useForm()
@@ -12,12 +12,12 @@ export default function SetForm() {
 
   const onDropAccepted = React.useCallback((acceptedFiles) => {
     const acceptedFile = acceptedFiles[0]
-    if (!getValues('imageUrl')) {
-      register('imageUrl', {})
+    if (!getValues('image')) {
+      register('image', {})
     }
+    setValue('image', acceptedFile)
     const reader = new FileReader()
     reader.onload = function () {
-      setValue('imageUrl', reader.result)
       setImagePreview(reader.result)
     }
     reader.readAsDataURL(acceptedFile)
@@ -30,7 +30,7 @@ export default function SetForm() {
   })
 
   const onSubmit = useCallback(async (data) => {
-    await axiosUtils.createQuestionSet(data)
+    await firebase.createQuestionSet(data)
   })
 
   return (

@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react'
 import { useRouter } from 'next/router'
-import axios from '~/client/utils/axios'
 import Seperator from '../common/Seperator'
 import OutsideClickHandler from 'react-outside-click-handler'
+import firebase from '~/client/firebase/Firebase'
 
 export default function LoggedIn() {
   const [showMenu, setShowMenu] = useState(false)
@@ -13,7 +13,7 @@ export default function LoggedIn() {
       label: 'Sign Out',
       href: null,
       onClick: useCallback(async () => {
-        await axios.signOut()
+        await firebase.signOut()
         router.reload()
       }),
     },
@@ -45,14 +45,12 @@ export default function LoggedIn() {
     return generated
   }
   return (
-    <div
-      className={`relative w-20 h-20 rounded-2xl hover:bg-app-dark-blue bg-opacity-25 border transition duration-300`}
-    >
+    <div className={`relative w-20 h-20 rounded-2xl bg-opacity-25 border`}>
       <img
         onClick={() => setShowMenu(!showMenu)}
         src="lightbulb.png"
         alt="lightbulb"
-        className={`select-none w-full h-full p-1 cursor-pointer object-contain rounded-2xl ${
+        className={`hover:bg-app-dark-blue select-none w-full h-full p-1 cursor-pointer object-contain rounded-2xl  transition duration-300 ${
           showMenu ? 'bg-app-dark-blue' : ''
         } `}
       />

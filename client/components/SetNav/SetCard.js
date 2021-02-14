@@ -24,7 +24,7 @@ export default function SetCard({ setData }) {
         </div>
       </div>
       <img
-        src={setData.bannerImage}
+        src={setData.bannerImage || './innovation.png'}
         alt="banner"
         className="pt-4 pb-2 w-full h-4/5 object-contain bg-app-blue-1 rounded-t-xl shadow-inner"
       />

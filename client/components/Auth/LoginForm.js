@@ -2,11 +2,11 @@ import React, { useState, useCallback, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import InputField from './InputField'
-import axiosUtils from '~/client/utils/axios'
 import AuthContext from '../../context/auth-context'
+import firebase from '~/client/firebase/Firebase'
 
 export default function LoginForm() {
-  const { register, handleSubmit, errors, setError } = useForm()
+  const { register, handleSubmit, errors } = useForm()
   const { login, logout } = useContext(AuthContext)
   const [authError, setAuthError] = useState(undefined)
   const router = useRouter()
@@ -14,17 +14,12 @@ export default function LoginForm() {
   const onSubmit = useCallback(async (data) => {
     const { email, password } = data
     try {
-      await axiosUtils.signInWithEmailAndPassword({
-        email,
-        password,
-      })
+      await firebase.signInWithEmailAndPassword(email, password)
       setAuthError(false)
-      login()
       router.push('/')
       // need to redirect
     } catch (err) {
       console.log(err)
-      logout()
       setAuthError('Username or password does not exist or is incorrect')
     }
   })

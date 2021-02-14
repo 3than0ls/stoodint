@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form'
 import Input from '../common/Input'
 import AnswerInput from './AnswerInput/AnswerForm'
 import Seperator from '../common/Seperator'
-import axiosUtils from '~/client/utils/axios'
 import { useDropzone } from 'react-dropzone'
 import ImageUpload from '~/client/components/common/ImageUpload'
+import firebase from '~/client/firebase/Firebase'
 
 export default function QuestionForm() {
   const {
@@ -22,14 +22,15 @@ export default function QuestionForm() {
 
   const onDropAccepted = React.useCallback((acceptedFiles) => {
     const acceptedFile = acceptedFiles[0]
-    if (!getValues('imageUrl')) {
-      register('imageUrl', {})
+    if (!getValues('image')) {
+      register('image', {})
     }
+    setValue('image', acceptedFile)
     const reader = new FileReader()
     reader.onload = function () {
-      setValue('imageUrl', reader.result)
       setImagePreview(reader.result)
     }
+
     reader.readAsDataURL(acceptedFile)
   }, [])
 
@@ -41,9 +42,9 @@ export default function QuestionForm() {
 
   const onSubmit = useCallback(async (data) => {
     try {
-      await axiosUtils.createQuestion('test', data)
+      await firebase.createQuestion('client_test', data)
     } catch (err) {
-      setAuthError('User ID Token not authorized. Re-login in and try again.')
+      console.log(err)
     }
   })
 

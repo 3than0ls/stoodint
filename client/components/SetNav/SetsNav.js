@@ -64,24 +64,3 @@ export default function SetsNav({ questionSets }) {
     <NoSets />
   )
 }
-/*
-
-{loggedIn ? (
-  <>
-    <AllSets
-      view={view}
-      questionSets={questionSets}
-      setView={setView}
-      loggedIn={loggedIn}
-    />
-    <CreateNewSet view={view} setView={setView} />
-    <PickView view={view} setView={setView} loggedIn={loggedIn} />
-  </>
-) : (
-  <AllSets
-    view={view}
-    questionSets={questionSets}
-    loggedIn={loggedIn}
-    setView={setView}
-  />
-)}*/
