@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Input from '~/components/common/Input'
-import Seperator from '~/components/common/Seperator'
-import axiosUtils from '~/utils/axios'
+import Input from '~/client/components/common/Input'
+import Seperator from '~/client/components/common/Seperator'
+import axiosUtils from '~/client/utils/axios'
 import { useDropzone } from 'react-dropzone'
-import ImageUpload from '~/components/common/ImageUpload'
+import ImageUpload from '~/client/components/common/ImageUpload'
 
 export default function SetForm() {
   const { register, handleSubmit, errors, getValues, setValue } = useForm()

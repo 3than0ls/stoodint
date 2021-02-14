@@ -1,10 +1,12 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import InputField from './InputField'
-import axiosUtils from '~/utils/axios'
+import axiosUtils from '~/client/utils/axios'
+import AuthContext from '../../context/auth-context'
 
 export default function LoginForm() {
   const { register, handleSubmit, errors, setError } = useForm()
+  const { login, logout } = useContext(AuthContext)
   const [authError, setAuthError] = useState(undefined)
 
   const onSubmit = useCallback(async (data) => {
@@ -15,8 +17,11 @@ export default function LoginForm() {
         password,
       })
       setAuthError(false)
+      login()
+      // need to redirect
     } catch (err) {
       console.log(err)
+      logout()
       setAuthError('Username or password does not exist or is incorrect')
     }
   })

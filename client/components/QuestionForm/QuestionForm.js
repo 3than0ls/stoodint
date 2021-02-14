@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form'
 import Input from '../common/Input'
 import AnswerInput from './AnswerInput/AnswerForm'
 import Seperator from '../common/Seperator'
-import axiosUtils from '~/utils/axios'
+import axiosUtils from '~/client/utils/axios'
 import { useDropzone } from 'react-dropzone'
-import ImageUpload from '~/components/common/ImageUpload'
+import ImageUpload from '~/client/components/common/ImageUpload'
 
 export default function QuestionForm() {
   const {

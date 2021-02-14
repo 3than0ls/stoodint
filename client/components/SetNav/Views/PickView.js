@@ -1,5 +1,5 @@
 import React from 'react'
-import Seperator from '~/components/common/Seperator'
+import Seperator from '~/client/components/common/Seperator'
 import NewSetButton from '../NewSetButton'
 
 export default function PickView({ view, setView }) {

@@ -1,4 +1,4 @@
-import SetsNav from '~/components/SetNav/SetsNav'
+import SetsNav from '~/client/components/SetNav/SetsNav'
 import firebase from '~/firebase/Firebase'
 
 export default function Sets({ questionSets }) {

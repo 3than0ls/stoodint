@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 const InputField = ({ label, type, name, register, errors }) => {
   const error = () => {
@@ -24,14 +23,6 @@ const InputField = ({ label, type, name, register, errors }) => {
       {error()}
     </div>
   )
-}
-
-InputField.propTypes = {
-  label: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
 }
 
 export default InputField

@@ -1,5 +1,5 @@
-import LoginForm from '~/components/Auth/LoginForm'
-import QuestionForm from '~/components/QuestionForm/QuestionForm'
+import LoginForm from '~/client/components/Auth/LoginForm'
+import QuestionForm from '~/client/components/QuestionForm/QuestionForm'
 
 export default function Home() {
   return (
