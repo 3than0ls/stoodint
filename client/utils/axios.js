@@ -24,8 +24,8 @@ class AxiosUtils {
   }
 
   async signOut() {
-    this.deleteIdToken()
     await axios.get(`/api/auth/logout`)
+    this.deleteIdToken()
   }
 
   async createQuestionSet(setData) {

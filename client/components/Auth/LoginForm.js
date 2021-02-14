@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useContext } from 'react'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import InputField from './InputField'
 import axiosUtils from '~/client/utils/axios'
@@ -8,6 +9,7 @@ export default function LoginForm() {
   const { register, handleSubmit, errors, setError } = useForm()
   const { login, logout } = useContext(AuthContext)
   const [authError, setAuthError] = useState(undefined)
+  const router = useRouter()
 
   const onSubmit = useCallback(async (data) => {
     const { email, password } = data
@@ -18,6 +20,7 @@ export default function LoginForm() {
       })
       setAuthError(false)
       login()
+      router.push('/')
       // need to redirect
     } catch (err) {
       console.log(err)
@@ -30,7 +33,7 @@ export default function LoginForm() {
     <div className="fixed w-full bg-gradient-to-b from-app-blue-2 via-app-blue-1 to-app-dark-blue flex flex-row justify-between items-center text-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mx-auto pt-8 lg:pt-0 lg:m-0 px-12 lg:px-32 lg:pr-64 h-screen w-auto flex flex-col lg:justify-center items-center bg-app-gray rounded-none lg:rounded-r-full shadow-2xl"
+        className="mx-auto pt-8 lg:pt-0 lg:m-0 px-12 lg:px-32 lg:pr-64 h-screen w-auto flex flex-col lg:justify-center items-center bg-app-dark-blue rounded-none lg:rounded-r-full shadow-2xl"
       >
         <div className="flex flex-col mb-4 lg:mb-8">
           <h1 className="font-bold tracking-wide text-4xl lg:text-5xl text-app-green text-center">

@@ -9,10 +9,14 @@ const InputField = ({ label, type, name, register, errors }) => {
 
   return (
     <div className="mb-4 lg:mb-8 w-96 flex flex-col">
-      <label className="text-app-green text-center tracking-wide text-lg mb-1">
+      <label
+        for={name}
+        className="text-app-green text-center tracking-wide text-lg mb-1"
+      >
         {label}
       </label>
       <input
+        id={name}
         type={type}
         name={name}
         ref={register}

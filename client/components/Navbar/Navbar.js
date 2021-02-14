@@ -17,20 +17,4 @@ export default function Navbar() {
       {loggedIn ? <LoggedIn /> : <LoginButton />}
     </div>
   )
-  // return (
-  //   <div className="relative w-full h-24">
-  //     <div
-  //       className={`fixed top-0 z-50 w-full font-semibold text-3xl
-  //             bg-app-dark-blue shadow-xl text-white border-b-4 border-app-blue-1 flex items-center justify-center
-  //             transition-height duration-300 ease-in-out ${
-  //               minimized ? 'h-16' : 'h-24'
-  //             }
-  //        `}
-  //     >
-  //       <div className="w-4/5 flex justify-end text-xl xl:text-2xl">
-  //         <LoginButton />
-  //       </div>
-  //     </div>
-  //   </div>
-  // )
 }

@@ -9,6 +9,7 @@ export default async (req, res) => {
     const data = await firebase.createQuestionSet(uid, setData)
     res.status(200).json(data)
   } catch (err) {
+    console.log(err)
     res.status(401).send(err.message)
   }
 }

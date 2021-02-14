@@ -1,9 +1,12 @@
 import React, { useState, useCallback } from 'react'
+import { useRouter } from 'next/router'
 import axios from '~/client/utils/axios'
 import Seperator from '../common/Seperator'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 export default function LoggedIn() {
   const [showMenu, setShowMenu] = useState(false)
+  const router = useRouter()
   const username = 'Site Admin'
   const [options] = useState([
     {
@@ -11,22 +14,26 @@ export default function LoggedIn() {
       href: null,
       onClick: useCallback(async () => {
         await axios.signOut()
+        router.reload()
       }),
     },
   ])
   const generateOptions = () => {
     const generated = []
     for (const option of options) {
-      console.log(option.href)
       if (option.href) {
         generated.push(
-          <div className="hover:bg-opacity-75 bg-app-blue-2 mb-1 text-white rounded-xl w-11/12 mx-auto py-2 cursor-pointer transition duration-300">
+          <div
+            key={option.label}
+            className="hover:bg-opacity-75 bg-app-blue-2 mb-1 text-white rounded-xl w-11/12 mx-auto py-2 cursor-pointer transition duration-300"
+          >
             <a href={option.href}>{option.label}</a>
           </div>
         )
       } else {
         generated.push(
           <div
+            key={option.label}
             onClick={option.onClick}
             className="hover:bg-opacity-75 bg-app-blue-2 mb-1 text-white rounded-xl w-11/12 mx-auto py-2 cursor-pointer transition duration-300"
           >
@@ -35,26 +42,33 @@ export default function LoggedIn() {
         )
       }
     }
-    console.log(generated)
     return generated
   }
   return (
-    <div className="relative w-20 h-20 rounded-2xl hover:bg-app-dark-blue bg-opacity-25 border transition duration-300">
+    <div
+      className={`relative w-20 h-20 rounded-2xl hover:bg-app-dark-blue bg-opacity-25 border transition duration-300`}
+    >
       <img
         onClick={() => setShowMenu(!showMenu)}
         src="lightbulb.png"
         alt="lightbulb"
-        className="w-full h-full p-1 cursor-pointer object-contain rounded-2xl"
+        className={`select-none w-full h-full p-1 cursor-pointer object-contain rounded-2xl ${
+          showMenu ? 'bg-app-dark-blue' : ''
+        } `}
       />
-      <div
-        className={`text-center mt-1 absolute right-0 p-4 w-64 bg-white text-black ${
-          showMenu ? 'opacity-100' : 'opacity-0 select-none'
-        } transition duration-300 shadow-2xl rounded-xl`}
+      <OutsideClickHandler
+        onOutsideClick={() => showMenu && setShowMenu(false)}
       >
-        Welcome <span className="font-bold">{username}</span>!
-        <Seperator inversed={true} />
-        {generateOptions()}
-      </div>
+        <div
+          className={`text-center mt-2 absolute z-50 right-0 p-4 w-64 bg-white text-black ${
+            showMenu ? 'opacity-100' : 'opacity-0 select-none'
+          } transition duration-300 shadow-2xl rounded-xl`}
+        >
+          Welcome <span className="font-bold">{username}</span>!
+          <Seperator inversed={true} />
+          {generateOptions()}
+        </div>
+      </OutsideClickHandler>
     </div>
   )
 }

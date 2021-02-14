@@ -9,6 +9,7 @@ export default async (req, res) => {
     })
     res.status(200).send(idToken)
   } catch (err) {
+    console.log(err)
     res.status(401).send(err.message)
   }
 }

@@ -8,7 +8,7 @@ export default function SetCarouselCard({ setData }) {
       <div
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
-        className="sm:h-72 xl:h-96 relative cursor-pointer"
+        className="sm:h-72 xl:h-96 relative cursor-pointer  hover:scale-105 transform transition duration-300"
       >
         <div className="absolute z-20 bg-black h-full w-full opacity-0 hover:bg-opacity-75 hover:opacity-100 transition duration-500">
           <div

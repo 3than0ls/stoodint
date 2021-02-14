@@ -6,6 +6,7 @@ export default async (req, res) => {
     await firebaseAdmin.revokeToken(idToken)
     res.status(200).send('Logged out')
   } catch (err) {
+    console.log(err)
     res.status(500).send(err)
   }
 }
