@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import MakeNewSet from './MakeNewSet'
-import NewSetButton from './NewSetButton'
+import MakeNewSet from '../SetForm/CreateSet'
+import NewSetButton from '../common/NewSetButton'
 
 export default function NoSets() {
   const [makeNewSet, setMakeNewSet] = useState(false)

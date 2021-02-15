@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from '../common/Icon'
+import { Icon } from './Icon'
 
 export default function NewSetButton({ onClick, ...props }) {
   return (

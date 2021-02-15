@@ -44,13 +44,18 @@ export default function QuestionForm() {
     try {
       await firebase.createQuestion('client_test', data)
     } catch (err) {
+      setAuthError('An error has occured. Try to reload the page.')
       console.log(err)
     }
   })
 
   return (
-    <div className="w-full p-4 text-center">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="w-full p-4 text-center flex flex-col items-center">
+      <p className="mx-auto text-4xl lg:text-5xl xl:text-6xl mt-6 mb-3 text-app-green">
+        Create a New Set
+      </p>
+      <Seperator />
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <Input
           name="question"
           label="Question"

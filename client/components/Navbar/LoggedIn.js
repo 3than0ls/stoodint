@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Seperator from '../common/Seperator'
 import OutsideClickHandler from 'react-outside-click-handler'
@@ -27,7 +28,9 @@ export default function LoggedIn() {
             key={option.label}
             className="hover:bg-opacity-75 bg-app-blue-2 mb-1 text-white rounded-xl w-11/12 mx-auto py-2 cursor-pointer transition duration-300"
           >
-            <a href={option.href}>{option.label}</a>
+            <Link href={option.href}>
+              <a>{option.label}</a>
+            </Link>
           </div>
         )
       } else {
