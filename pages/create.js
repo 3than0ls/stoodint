@@ -1,12 +1,11 @@
-import CreateSet from '~/client/components/SetForm/CreateSet'
-import { withAuth } from '~/client/hoc/withAuth'
+import CreateSet from '~/client/components/SubjectForm/CreateSubject'
 import { useContext } from 'react'
 import authContext from '~/client/context/auth-context'
 import Link from 'next/link'
+import Cookies from 'js-cookie'
 
-function Create() {
+export default function Create() {
   const { loggedIn } = useContext(authContext)
-  console.log(loggedIn)
   return (
     <>
       {loggedIn === false ? (
@@ -25,5 +24,16 @@ function Create() {
     </>
   )
 }
-export default Create
-// export default withAuth(Create)
+
+// maybe replace with getServerSideProps and check cookies?
+// export async function getStaticProps() {
+//   if (!Cookies.get('idToken')) {
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false,
+//       },
+//     }
+//   }
+//   return { props: {} }
+// }

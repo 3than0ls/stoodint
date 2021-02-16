@@ -52,7 +52,7 @@ export default function QuestionForm() {
   return (
     <div className="w-full p-4 text-center flex flex-col items-center">
       <p className="mx-auto text-4xl lg:text-5xl xl:text-6xl mt-6 mb-3 text-app-green">
-        Create a New Set
+        Create a New Question
       </p>
       <Seperator />
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">

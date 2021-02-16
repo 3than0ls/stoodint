@@ -5,10 +5,12 @@ import Seperator from '~/client/components/common/Seperator'
 import { useDropzone } from 'react-dropzone'
 import ImageUpload from '~/client/components/common/ImageUpload'
 import firebase from '~/client/firebase/Firebase'
+import { useRouter } from 'next/router'
 
-export default function SetForm() {
+export default function SubjectForm() {
   const { register, handleSubmit, errors, getValues, setValue } = useForm()
   const [imagePreview, setImagePreview] = useState(undefined)
+  const router = useRouter()
 
   const onDropAccepted = React.useCallback((acceptedFiles) => {
     const acceptedFile = acceptedFiles[0]
@@ -30,7 +32,12 @@ export default function SetForm() {
   })
 
   const onSubmit = useCallback(async (data) => {
-    await firebase.createQuestionSet(data)
+    try {
+      const data = await firebase.createSubject(data)
+      router.push(`/subjects/${data.id}`)
+    } catch (err) {
+      console.log(err)
+    }
   })
 
   return (
@@ -38,16 +45,16 @@ export default function SetForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           name="name"
-          label="Question Set Name"
-          placeholder="Set Name"
+          label="Subject Name"
+          placeholder="Subject Name"
           register={register}
           errors={errors}
         />
         <Input
           className="mt-6"
           name="description"
-          label="Question Set Description"
-          placeholder="Set Description"
+          label="Subject Description"
+          placeholder="Subject Description"
           register={register}
           errors={errors}
         />
@@ -55,14 +62,14 @@ export default function SetForm() {
           getRootProps={getRootProps}
           getInputProps={getInputProps}
           errors={errors}
-          inputText="Optional. Drag or upload an image. Reccomended resolution: 1200x500"
+          inputText="Optional. Drag or upload an image. Recommended resolution: 1200x500"
           imagePreview={imagePreview}
           label="Add a banner image"
         />
         <Seperator />
         <input
           type="submit"
-          value="Create New Question Set"
+          value="Create New Subject"
           className="my-4 py-4 px-24 text-2xl rounded-2xl transition duration-300 focus:outline-none 
                     bg-app-blue-1 mx-auto text-white cursor-pointer hover:bg-opacity-75"
         />

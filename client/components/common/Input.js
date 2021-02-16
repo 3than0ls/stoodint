@@ -19,7 +19,7 @@ export default function Input({
         name={name}
         placeholder={placeholder}
         ref={register({ required: true })}
-        className="rounded-lg bg-gray-100 hover:bg-gray-200 outline-none transition p-2 border-2 border-gray-600"
+        className="rounded-lg bg-gray-100 hover:bg-gray-200 outline-none transition p-2 md:p-3 text-lg lg:text-xl border-2 border-gray-600 text-black"
         autoComplete="off"
         autoCorrect="off"
       />

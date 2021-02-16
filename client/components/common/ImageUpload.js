@@ -24,7 +24,7 @@ export default function ImageUpload({
         className={`cursor-pointer rounded-lg mx-auto w-5/6 py-12 transition duration-300 bg-white hover:bg-app-light-blue-1 outline-none`}
       >
         <input {...getInputProps({ name: 'image', accept: 'image/*' })} />
-        <p className="text-lg md:text-xl">
+        <p className="text-lg md:text-xl text-black">
           {inputText || 'Drag or upload files'}
         </p>
         <img
