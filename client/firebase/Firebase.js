@@ -25,12 +25,9 @@ class Firebase {
   }
 
   async signInWithEmailAndPassword(email, password) {
-    const userCreds = await this.auth.signInWithEmailAndPassword(
-      email,
-      password
-    )
+    await this.auth.signInWithEmailAndPassword(email, password)
     const idToken = await this.auth.currentUser.getIdToken()
-    Cookies.set('idToken', idToken)
+    Cookies.set('idToken', idToken, { expires: 365 })
   }
 
   async createSubject(subjectData) {
@@ -85,11 +82,29 @@ class Firebase {
 
   async getSubjects() {
     const data = await this.firestore.collection('subjects').get()
-    const subjects = []
-    for (let snapshot of data.docs) {
-      subjects.push({ id: snapshot.id, ...snapshot.data() })
+    // const subjects = []
+    // for (let snapshot of data.docs) {
+    //   subjects.push({ id: snapshot.id, ...snapshot.data() })
+    // }
+    // return subjects
+    return data.docs.map((doc) => doc.data())
+  }
+
+  async getSubject(subjectID) {
+    const subjectData = await this.firestore
+      .collection('subjects')
+      .doc(subjectID)
+      .get()
+    const subject = subjectData.data()
+    const questionSetsData = await this.firestore
+      .collection(`subjects/${subjectID}/questionSets`)
+      .get()
+    const questionSets = questionSetsData.docs.map((doc) => doc.data())
+    if (subject) {
+      return { questionSets, ...subject }
+    } else {
+      return null
     }
-    return subjects
   }
 
   async uploadImage(folder, file) {

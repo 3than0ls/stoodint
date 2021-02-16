@@ -1,7 +1,7 @@
-import Subjects from '~/client/components/Subjects/Subjects'
+import Subjects from '~/client/components/SubjectHome/Subjects'
 import firebase from '~/client/firebase/Firebase'
 
-export default function Subjectss({ subjects }) {
+export default function SubjectsHome({ subjects }) {
   return (
     <>
       <Subjects subjects={subjects} />

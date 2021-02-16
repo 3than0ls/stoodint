@@ -3,12 +3,11 @@ import '~/styles/tailwind.css'
 import AuthContext from '~/client/context/auth-context'
 import React, { useState } from 'react'
 import firebase from '~/client/firebase/Firebase'
-import Cookies from 'js-cookie'
 import Head from 'next/head'
 // might move head to its own component in /components
 
-function MyApp({ Component, pageProps }) {
-  const [loggedIn, setLoggedIn] = useState(!!Cookies.get('idToken'))
+export default function MyApp({ Component, pageProps }) {
+  const [loggedIn, setLoggedIn] = useState(undefined)
   firebase.auth.onAuthStateChanged((user) => setLoggedIn(!!user))
   return (
     <AuthContext.Provider
@@ -29,5 +28,3 @@ function MyApp({ Component, pageProps }) {
     </AuthContext.Provider>
   )
 }
-
-export default MyApp
