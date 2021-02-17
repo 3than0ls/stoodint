@@ -51,8 +51,8 @@ export default function LoggedIn() {
     <div className={`relative w-20 h-20 rounded-2xl bg-opacity-25 border`}>
       <img
         onClick={() => setShowMenu(!showMenu)}
-        src="lightbulb.png"
-        alt="lightbulb"
+        src="https://firebasestorage.googleapis.com/v0/b/stoodint-a9642.appspot.com/o/avatars%2Flightbulb.png?alt=media&token=f820a250-e39d-45f1-a5b5-d74c5fdafaf6"
+        alt="avatar"
         className={`hover:bg-app-dark-blue select-none w-full h-full p-1 cursor-pointer object-contain rounded-2xl  transition duration-300 ${
           showMenu ? 'bg-app-dark-blue' : ''
         } `}

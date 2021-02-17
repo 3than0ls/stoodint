@@ -30,6 +30,50 @@ class Firebase {
     Cookies.set('idToken', idToken, { expires: 365 })
   }
 
+  async getSubjects() {
+    const data = await this.firestore.collection('subjects').get()
+    return data.docs.map((doc) => doc.data())
+  }
+
+  async getSubject(subjectID) {
+    const subjectData = await this.firestore
+      .collection('subjects')
+      .doc(subjectID)
+      .get()
+    const subject = subjectData.data()
+    const questionSetsData = await this.firestore
+      .collection(`subjects/${subjectID}/questionSets`)
+      .get()
+    const questionSets = questionSetsData.docs.map((doc) => doc.data())
+    if (subject) {
+      const data = { questionSets, ...subject }
+      return data
+    } else {
+      return null
+    }
+  }
+
+  async getQuestionSet(subjectID, questionSetID) {
+    const questionSetData = await this.firestore
+      .collection(`subjects/${subjectID}/questionSets`)
+      .doc(questionSetID)
+      .get()
+    if (questionSetData) {
+      return questionSetData.data()
+    } else {
+      return null
+    }
+  }
+
+  async uploadImage(folder, file) {
+    const snapshot = await this.storage
+      .ref()
+      .child(`${folder}/${uuidv4()}`)
+      .put(file)
+    const downloadURL = await snapshot.ref.getDownloadURL()
+    return downloadURL
+  }
+
   async createSubject(subjectData) {
     if (subjectData.image) {
       subjectData.bannerImage = await this.uploadImage(
@@ -50,14 +94,8 @@ class Firebase {
     return data
   }
 
-  async createQuestionSet(subjectID, questionSetData) {
-    // subject is the parent of question sets
-    const parent = await this.firestore
-      .collection('subjects')
-      .doc(subjectID)
-      .get()
-    const subject = parent.data()
-    // if there is a banner image supplied, otherwise just use parent banner
+  async createQuestionSet(subject, questionSetData) {
+    // if there is a banner image supplied, otherwise just use parent subject banner
     if (questionSetData.image) {
       questionSetData.bannerImage = await this.uploadImage(
         'questionSetBanner',
@@ -69,7 +107,7 @@ class Firebase {
     }
     const questionSetID = shortid.generate()
     const collection = this.firestore.collection(
-      `subjects/${subjectID}/questionSets`
+      `subjects/${subject.id}/questionSets`
     )
     const data = await collection.doc(questionSetID).set({
       questions: {},
@@ -78,42 +116,6 @@ class Firebase {
       ...questionSetData,
     })
     return data
-  }
-
-  async getSubjects() {
-    const data = await this.firestore.collection('subjects').get()
-    // const subjects = []
-    // for (let snapshot of data.docs) {
-    //   subjects.push({ id: snapshot.id, ...snapshot.data() })
-    // }
-    // return subjects
-    return data.docs.map((doc) => doc.data())
-  }
-
-  async getSubject(subjectID) {
-    const subjectData = await this.firestore
-      .collection('subjects')
-      .doc(subjectID)
-      .get()
-    const subject = subjectData.data()
-    const questionSetsData = await this.firestore
-      .collection(`subjects/${subjectID}/questionSets`)
-      .get()
-    const questionSets = questionSetsData.docs.map((doc) => doc.data())
-    if (subject) {
-      return { questionSets, ...subject }
-    } else {
-      return null
-    }
-  }
-
-  async uploadImage(folder, file) {
-    const snapshot = await this.storage
-      .ref()
-      .child(`${folder}/${uuidv4()}`)
-      .put(file)
-    const downloadURL = await snapshot.ref.getDownloadURL()
-    return downloadURL
   }
 
   async createQuestion(questionSetID, question) {

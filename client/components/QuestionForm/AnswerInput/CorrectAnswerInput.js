@@ -1,5 +1,5 @@
 import React from 'react'
-import Label from '../../common/Label'
+import Label from '../../common/Form/Label'
 
 export default function CorrectAnswerInput({ answerNum, register }) {
   return (

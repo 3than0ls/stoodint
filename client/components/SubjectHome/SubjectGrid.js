@@ -1,11 +1,17 @@
 import React from 'react'
-import SubjectCard from './SubjectCard'
+import Card from '../common/Card'
 
 export default function SubjectGrid({ subjects }) {
   const generateCards = () => {
     const cards = []
     for (const subject of subjects) {
-      cards.push(<SubjectCard key={subject.id} subject={subject} />)
+      cards.push(
+        <Card
+          key={subject.id}
+          href={`/subjects/${subject.id}`}
+          cardObject={subject}
+        />
+      )
     }
     return cards
   }

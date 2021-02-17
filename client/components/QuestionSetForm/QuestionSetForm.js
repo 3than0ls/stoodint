@@ -7,7 +7,7 @@ import ImageUpload from '~/client/components/common/Form/ImageUpload'
 import firebase from '~/client/firebase/Firebase'
 import { useRouter } from 'next/router'
 
-export default function SubjectForm() {
+export default function QuestionSetForm({ subject }) {
   const { register, handleSubmit, errors, getValues, setValue } = useForm()
   const [imagePreview, setImagePreview] = useState(undefined)
   const router = useRouter()
@@ -31,10 +31,10 @@ export default function SubjectForm() {
     multiple: false,
   })
 
-  const onSubmit = useCallback(async (data) => {
+  const onSubmit = useCallback(async (questionSetData) => {
     try {
-      const data = await firebase.createSubject(data)
-      router.push(`/subjects/${data.id}`)
+      const data = await firebase.createQuestionSet(subject, questionSetData)
+      router.push(`/subjects/${subject.id}`)
     } catch (err) {
       console.log(err)
     }
@@ -45,16 +45,16 @@ export default function SubjectForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           name="name"
-          label="Subject Name"
-          placeholder="Subject Name"
+          label="Question Set Name"
+          placeholder="Question Set Name"
           register={register}
           errors={errors}
         />
         <Input
           className="mt-6"
           name="description"
-          label="Subject Description"
-          placeholder="Subject Description"
+          label="Question Set Description"
+          placeholder="Question Set Description"
           register={register}
           errors={errors}
         />
@@ -69,7 +69,7 @@ export default function SubjectForm() {
         <Seperator />
         <input
           type="submit"
-          value="Create New Subject"
+          value="Create New Question Set"
           className="my-4 py-4 px-24 text-2xl rounded-2xl transition duration-300 focus:outline-none 
                     bg-app-blue-1 mx-auto text-white cursor-pointer hover:bg-opacity-75"
         />

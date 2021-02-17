@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 
-export default function SubjectCard({ subject }) {
+export default function Card({ href, cardObject }) {
   const [hovering, setHovering] = useState(false)
   return (
     <div
       draggable="false"
-      className="relative cursor-pointer text-white h-64 md:h-72 lg:h-96 w-3/4 md:w-1/2 max-w-2xl mt-12 mx-12 rounded-2xl shadow-xl hover:scale-105 transform transition duration-300 ease-in-out"
+      className="relative overflow-hidden cursor-pointer text-white h-64 md:h-72 lg:h-96 w-full max-w-2xl mt-12 mx-12 rounded-2xl shadow-xl hover:scale-105 transform transition duration-300 ease-in-out"
     >
-      <Link href={'/subjects/' + subject.id}>
+      <Link href={href}>
         <a>
           <div
             onMouseEnter={() => setHovering(true)}
@@ -22,11 +22,13 @@ export default function SubjectCard({ subject }) {
                   : '-translate-y-16 bg-opacity-0 pointer-events-none'
               } transform transition duration-500 text-white h-full w-full flex flex-col items-center justify-center`}
             >
-              <p className="mt-4 text-xl">Description: {subject.description}</p>
+              <p className="px-2 mt-4 text-xl w-full text-center break-words overflow-hidden">
+                Description: {cardObject.description}
+              </p>
             </div>
           </div>
           <img
-            src={subject.bannerImage || './innovation.png'}
+            src={cardObject.bannerImage || './innovation.png'}
             alt="banner"
             className="w-full h-4/5 object-cover bg-app-blue-1 rounded-t-xl shadow-inner"
           />
@@ -34,7 +36,7 @@ export default function SubjectCard({ subject }) {
             className="text-xl lg:text-2xl px-4 lg:px-6 h-1/5 flex items-center justify-start break-words hover:underline bg-black rounded-b-2xl hover:bg-opacity-75 transition duration-500"
             draggable="false"
           >
-            {subject.name}
+            {cardObject.name}
           </span>
         </a>
       </Link>

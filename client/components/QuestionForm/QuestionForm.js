@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import Input from '../common/Input'
+import Input from '../common/Form/Input'
 import AnswerInput from './AnswerInput/AnswerForm'
 import Seperator from '../common/Seperator'
 import { useDropzone } from 'react-dropzone'
-import ImageUpload from '~/client/components/common/ImageUpload'
+import ImageUpload from '~/client/components/common/Form/ImageUpload'
 import firebase from '~/client/firebase/Firebase'
 
 export default function QuestionForm() {

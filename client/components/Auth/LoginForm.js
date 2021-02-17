@@ -1,13 +1,11 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import InputField from './InputField'
-import AuthContext from '../../context/auth-context'
 import firebase from '~/client/firebase/Firebase'
 
 export default function LoginForm() {
   const { register, handleSubmit, errors } = useForm()
-  const { login, logout } = useContext(AuthContext)
   const [authError, setAuthError] = useState(undefined)
   const router = useRouter()
 
@@ -16,7 +14,11 @@ export default function LoginForm() {
     try {
       await firebase.signInWithEmailAndPassword(email, password)
       setAuthError(false)
-      router.push('/')
+      if (window.history.length > 1) {
+        router.back()
+      } else {
+        router.push('/')
+      }
       // need to redirect
     } catch (err) {
       console.log(err)

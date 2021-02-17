@@ -21,7 +21,9 @@ export default function CarouselCard({ subject }) {
               } transform transition duration-500 text-white flex flex-col justify-center h-full`}
             >
               <h3 className="text-4xl">{name}</h3>
-              <p className="mt-4">{description}</p>
+              <p className="mt-4 w-full text-center break-words">
+                {description}
+              </p>
             </div>
           </div>
           <div className="text-4xl h-1/2 absolute inset-x-0 z-20 bg-opacity-80 bg-gradient-to-b from-black to-transparent">

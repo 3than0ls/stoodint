@@ -1,6 +1,5 @@
 import React from 'react'
 import Label from './Label'
-import Seperator from './Seperator'
 
 export default function ImageUpload({
   getRootProps,
