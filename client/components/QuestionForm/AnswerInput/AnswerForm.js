@@ -7,11 +7,9 @@ import CorrectAnswerInput from './CorrectAnswerInput'
 export default function AnswerInput({ register, clearErrors, errors }) {
   const [answerNum, setAnswerNum] = useState(2)
 
-  const answers = () => {
-    return [...Array(answerNum).keys()].map((num) => (
-      <AnswerInputs key={num} register={register} errors={errors} index={num} />
+  const answers = () => [...Array(answerNum).keys()].map((num) => (
+    <AnswerInputs key={num} register={register} errors={errors} index={num} />
     ))
-  }
 
   const increaseAnswers = () => {
     clearErrors() // this line doesnt do what i want it to do :(

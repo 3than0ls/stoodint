@@ -20,7 +20,7 @@ export default function ImageUpload({
       )}
       <div
         {...getRootProps()}
-        className={`cursor-pointer rounded-lg mx-auto w-5/6 py-12 transition duration-300 bg-white hover:bg-app-light-blue-1 outline-none`}
+        className="cursor-pointer rounded-lg mx-auto w-5/6 py-12 transition duration-300 bg-white hover:bg-app-light-blue-1 outline-none"
       >
         <input {...getInputProps({ name: 'image', accept: 'image/*' })} />
         <p className="text-lg md:text-xl text-black">

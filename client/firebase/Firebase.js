@@ -1,9 +1,9 @@
 import firebase from 'firebase'
 import 'firebase/storage'
-import firebaseConfig from './firebase.config.js'
 import shortid from 'shortid'
 import { v4 as uuidv4 } from 'uuid'
 import Cookies from 'js-cookie'
+import firebaseConfig from './firebase.config.js'
 
 class Firebase {
   constructor() {
@@ -48,9 +48,9 @@ class Firebase {
     if (subject) {
       const data = { questionSets, ...subject }
       return data
-    } else {
+    } 
       return null
-    }
+    
   }
 
   async getQuestionSet(subjectID, questionSetID) {
@@ -60,9 +60,9 @@ class Firebase {
       .get()
     if (questionSetData) {
       return questionSetData.data()
-    } else {
+    } 
       return null
-    }
+    
   }
 
   async uploadImage(folder, file) {

@@ -1,7 +1,6 @@
-import CreateSet from '~/client/components/SubjectForm/CreateSubject'
 import { useContext } from 'react'
+import CreateSet from '~/client/components/SubjectForm/CreateSubject'
 import authContext from '~/client/context/auth-context'
-import Link from 'next/link'
 
 export default function Create() {
   const { loggedIn } = useContext(authContext)

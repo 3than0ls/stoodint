@@ -1,27 +1,14 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import Seperator from '../common/Seperator'
 import OutsideClickHandler from 'react-outside-click-handler'
-import firebase from '~/client/firebase/Firebase'
+import Seperator from '../../common/Seperator'
 
-export default function LoggedIn() {
+export default function LoggedIn({ loggedInOptions }) {
   const [showMenu, setShowMenu] = useState(false)
-  const router = useRouter()
   const username = 'Site Admin'
-  const [options] = useState([
-    {
-      label: 'Sign Out',
-      href: null,
-      onClick: useCallback(async () => {
-        await firebase.signOut()
-        router.reload()
-      }),
-    },
-  ])
   const generateOptions = () => {
     const generated = []
-    for (const option of options) {
+    for (const option of loggedInOptions) {
       if (option.href) {
         generated.push(
           <div
@@ -48,7 +35,7 @@ export default function LoggedIn() {
     return generated
   }
   return (
-    <div className={`relative w-20 h-20 rounded-2xl bg-opacity-25 border`}>
+    <div className="ml-4 flex-shrink-0 relative w-20 h-20 rounded-2xl bg-opacity-25 border">
       <img
         onClick={() => setShowMenu(!showMenu)}
         src="https://firebasestorage.googleapis.com/v0/b/stoodint-a9642.appspot.com/o/avatars%2Flightbulb.png?alt=media&token=f820a250-e39d-45f1-a5b5-d74c5fdafaf6"
@@ -65,8 +52,9 @@ export default function LoggedIn() {
             showMenu ? 'opacity-100' : 'opacity-0 select-none'
           } transition duration-300 shadow-2xl rounded-xl`}
         >
-          Welcome <span className="font-bold">{username}</span>!
-          <Seperator inversed={true} />
+          Welcome <span className="font-bold">{username}</span>
+          !
+          <Seperator inversed />
           {generateOptions()}
         </div>
       </OutsideClickHandler>

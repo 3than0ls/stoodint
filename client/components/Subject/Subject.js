@@ -1,17 +1,17 @@
 import React from 'react'
+import Link from 'next/link'
 import Banner from '../common/Banner'
 import Container from '../common/Container'
 import Seperator from '../common/Seperator'
 import NoQuestionSets from './NoQuestionSets'
 import CreateButton from '../common/CreateButton'
 import QuestionSetGrid from './QuestionSetGrid'
-import Link from 'next/link'
 
 export default function Subject({ subject }) {
   const { bannerImage, name, description, authorID, questionSets, id } = subject
   const route = `${subject.id}/create`
   return (
-    <Container col={true} className="mt-2 pb-16">
+    <Container col className="mt-2 pb-16">
       <Banner
         src={bannerImage}
         name={name}

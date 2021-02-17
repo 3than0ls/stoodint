@@ -24,8 +24,7 @@ export default function Subjects({ subjects }) {
         onClick={() =>
           document
             .getElementById('subjects')
-            .scrollIntoView({ behavior: 'smooth' })
-        }
+            .scrollIntoView({ behavior: 'smooth' })}
       />
     )
     cards.push(
@@ -53,4 +52,4 @@ export default function Subjects({ subjects }) {
 
 /*
         <CreateNewSet view={view} setView={setView} />
-        <PickView view={view} setView={setView} loggedIn={loggedIn} />*/
+        <PickView view={view} setView={setView} loggedIn={loggedIn} /> */

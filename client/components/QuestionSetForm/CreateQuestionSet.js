@@ -6,9 +6,11 @@ import QuestionSetForm from './QuestionSetForm'
 
 export default function CreateQuestionSet({ subject }) {
   return (
-    <Container col={true}>
+    <Container col>
       <p className="mx-auto text-4xl lg:text-5xl xl:text-6xl mt-6 mb-3 text-app-green">
-        Create a new question set for {subject.name}
+        Create a new question set for 
+        {' '}
+        {subject.name}
       </p>
       <Seperator />
       <QuestionSetForm subject={subject} />

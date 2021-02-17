@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import CreateButton from '../common/CreateButton'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import CreateButton from '../common/CreateButton'
 import authContext from '~/client/context/auth-context'
 
 export default function NoQuestionSets({ subject }) {
@@ -11,7 +11,7 @@ export default function NoQuestionSets({ subject }) {
   return (
     <div className="text-center relative ">
       <div
-        className={`transition transform duration-500 m-auto w-full bg-app-gray`}
+        className="transition transform duration-500 m-auto w-full bg-app-gray"
       >
         <p className="text-2xl md:text-3xl lg:text-4xl mt-12 mb-6 text-app-green ">
           Hmm... there are no available question sets in this subject.

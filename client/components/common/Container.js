@@ -5,7 +5,7 @@ export default function Container(props) {
     <div
       className={`w-full flex ${
         props.col ? 'flex-col' : 'flex-row'
-      }  items-center px-8 sm:px-12 md:px-24 lg:px-32 xl:px-36 ${
+      }  items-center px-8 sm:px-12 md:px-20 lg:px-28 xl:px-32 ${
         props.className
       }`}
     >

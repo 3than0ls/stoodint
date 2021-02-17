@@ -23,7 +23,9 @@ export default function Card({ href, cardObject }) {
               } transform transition duration-500 text-white h-full w-full flex flex-col items-center justify-center`}
             >
               <p className="px-2 mt-4 text-xl w-full text-center break-words overflow-hidden">
-                Description: {cardObject.description}
+                Description: 
+                {' '}
+                {cardObject.description}
               </p>
             </div>
           </div>
