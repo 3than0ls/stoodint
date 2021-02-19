@@ -33,8 +33,11 @@ export default function QuestionSetForm({ subject }) {
 
   const onSubmit = useCallback(async (questionSetData) => {
     try {
-      const data = await firebase.createQuestionSet(subject, questionSetData)
-      router.push(`/subjects/${subject.id}`)
+      const questionSetID = await firebase.createQuestionSet(
+        subject,
+        questionSetData
+      )
+      router.push(`/subjects/${subject.id}/${questionSetID}`)
     } catch (err) {
       console.log(err)
     }

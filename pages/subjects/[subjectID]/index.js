@@ -8,6 +8,20 @@ export default function SubjectHome({ subject }) {
 
 export async function getServerSideProps(ctx) {
   const subject = await firebase.getSubject(ctx.params.subjectID)
+
+  // should actually be a firebase admin idToken verification
+  if (!ctx.req.cookies.idToken) {
+    if (subject.private) {
+      return {
+        props: { subject: null },
+      }
+    }
+    const questionSets = subject.questionSets.filter(
+      (questionSet) => !questionSet.private
+    )
+    subject.questionSets = questionSets
+  }
+
   return {
     props: { subject },
   }

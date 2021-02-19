@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { useDropzone } from 'react-dropzone'
 import Input from '../common/Form/Input'
@@ -6,18 +7,14 @@ import AnswerInput from './AnswerInput/AnswerForm'
 import Seperator from '../common/Seperator'
 import ImageUpload from '~/client/components/common/Form/ImageUpload'
 import firebase from '~/client/firebase/Firebase'
+import Container from '../common/Container'
 
-export default function QuestionForm() {
-  const {
-    register,
-    handleSubmit,
-    errors,
-    clearErrors,
-    getValues,
-    setValue,
-  } = useForm()
+export default function QuestionForm({ subjectID, questionSetID }) {
+  const { register, handleSubmit, errors, getValues, setValue } = useForm()
 
-  const [authError, setAuthError] = useState(undefined)
+  const router = useRouter()
+
+  const [error, setError] = useState(undefined)
   const [imagePreview, setImagePreview] = useState(undefined)
 
   const onDropAccepted = React.useCallback((acceptedFiles) => {
@@ -41,16 +38,24 @@ export default function QuestionForm() {
   })
 
   const onSubmit = useCallback(async (data) => {
+    const oneCorrect =
+      data.answers.filter((answer) => answer.correct).length === 1
+    if (!oneCorrect) {
+      setError('There must be one and only one correct answer.')
+      return
+    }
+
     try {
-      await firebase.createQuestion('client_test', data)
+      await firebase.createQuestion(subjectID, questionSetID, data)
+      router.push(`/subjects/${subjectID}/${questionSetID}`)
     } catch (err) {
-      setAuthError('An error has occured. Try to reload the page.')
+      setError('An error has occured. Try to reload the page.')
       console.log(err)
     }
   })
 
   return (
-    <div className="w-full p-4 text-center flex flex-col items-center">
+    <Container col className="text-center mb-16">
       <p className="mx-auto text-4xl lg:text-5xl xl:text-6xl mt-6 mb-3 text-app-green">
         Create a New Question
       </p>
@@ -73,23 +78,24 @@ export default function QuestionForm() {
         />
         <Seperator />
         <AnswerInput
+          setValue={setValue}
           register={register}
           errors={errors}
-          clearErrors={clearErrors}
+          getValues={getValues}
         />
         <Seperator />
-        {authError && (
-          <div className="text-app-purple my-4 lg:my-8 text-xl text-center">
-            {authError}
+        {error && (
+          <div className="text-app-purple mt-4 lg:mt-8 text-xl text-center">
+            {error}
           </div>
         )}
         <input
           type="submit"
           value="Submit"
-          className="my-4 py-4 px-24 rounded-2xl transition duration-300 focus:outline-none 
+          className="mt-8 py-4 px-24 rounded-2xl transition duration-300 focus:outline-none 
                     bg-app-blue-1 mx-auto text-white cursor-pointer hover:bg-opacity-75"
         />
       </form>
-    </div>
+    </Container>
   )
 }

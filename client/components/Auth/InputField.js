@@ -11,7 +11,7 @@ const InputField = ({ label, type, name, register, errors }) => {
     <div className="mb-4 lg:mb-8 w-96 flex flex-col">
       <label
         htmlFor={name}
-        className="text-app-green text-center tracking-wide text-lg mb-1"
+        className="text-app-green text-center tracking-wide text-lg pb-1"
       >
         {label}
       </label>

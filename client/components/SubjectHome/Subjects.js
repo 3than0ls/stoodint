@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 import NoSubjects from './NoSubjects'
 import CarouselCard from './Carousel/CarouselCard'
@@ -24,7 +24,8 @@ export default function Subjects({ subjects }) {
         onClick={() =>
           document
             .getElementById('subjects')
-            .scrollIntoView({ behavior: 'smooth' })}
+            .scrollIntoView({ behavior: 'smooth' })
+        }
       />
     )
     cards.push(
@@ -49,7 +50,3 @@ export default function Subjects({ subjects }) {
     <NoSubjects />
   )
 }
-
-/*
-        <CreateNewSet view={view} setView={setView} />
-        <PickView view={view} setView={setView} loggedIn={loggedIn} /> */

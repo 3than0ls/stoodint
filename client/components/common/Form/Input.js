@@ -10,7 +10,7 @@ export default function Input({
   ...props
 }) {
   return (
-    <div className={`w-5/6 mx-auto flex flex-col ${props.className}`}>
+    <div className={`w-11/12 mx-auto flex flex-col ${props.className}`}>
       <Label label={label} />
       {errors[name] && (
         <div className="text-app-blue-2 text-left">This field is required</div>

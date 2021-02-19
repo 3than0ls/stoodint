@@ -9,8 +9,14 @@ export default function SubjectsHome({ subjects }) {
   )
 }
 
-export async function getStaticProps() {
-  const subjects = await firebase.getSubjects()
+export async function getServerSideProps(ctx) {
+  let subjects = await firebase.getSubjects()
+
+  // should actually be a firebase admin idToken verification
+  if (!ctx.req.cookies.idToken) {
+    subjects = subjects.filter((subject) => !subject.private)
+  }
+
   return {
     props: { subjects },
   }

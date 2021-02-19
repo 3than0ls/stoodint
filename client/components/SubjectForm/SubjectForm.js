@@ -33,8 +33,8 @@ export default function SubjectForm() {
 
   const onSubmit = useCallback(async (data) => {
     try {
-      const data = await firebase.createSubject(data)
-      router.push(`/subjects/${data.id}`)
+      const subjectID = await firebase.createSubject(data)
+      router.push(`/subjects/${subjectID}`)
     } catch (err) {
       console.log(err)
     }

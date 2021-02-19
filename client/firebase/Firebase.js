@@ -48,9 +48,8 @@ class Firebase {
     if (subject) {
       const data = { questionSets, ...subject }
       return data
-    } 
-      return null
-    
+    }
+    return null
   }
 
   async getQuestionSet(subjectID, questionSetID) {
@@ -58,11 +57,11 @@ class Firebase {
       .collection(`subjects/${subjectID}/questionSets`)
       .doc(questionSetID)
       .get()
-    if (questionSetData) {
-      return questionSetData.data()
-    } 
-      return null
-    
+    const questionSet = questionSetData.data()
+    if (questionSet) {
+      return [await this.getSubject(subjectID), questionSet]
+    }
+    return null
   }
 
   async uploadImage(folder, file) {
@@ -81,17 +80,22 @@ class Firebase {
         subjectData.image
       )
       delete subjectData.image
+    } else {
+      delete subjectData.image
+      subjectData.bannerImage =
+        'https://firebasestorage.googleapis.com/v0/b/stoodint-a9642.appspot.com/o/subjectBanner%2Fdefault.png?alt=media&token=4d3d18aa-2fbc-4795-9ce4-0efa2ad4d197'
     }
     const subjectID = shortid.generate()
-    const data = await this.firestore
+    await this.firestore
       .collection(`subjects`)
       .doc(subjectID)
       .set({
         ...subjectData,
         id: subjectID,
         authorID: this.auth.currentUser?.uid || 'anon',
+        private: true,
       })
-    return data
+    return subjectID
   }
 
   async createQuestionSet(subject, questionSetData) {
@@ -109,32 +113,73 @@ class Firebase {
     const collection = this.firestore.collection(
       `subjects/${subject.id}/questionSets`
     )
-    const data = await collection.doc(questionSetID).set({
-      questions: {},
+    await collection.doc(questionSetID).set({
+      questions: [],
+      counter: 0,
+      private: true,
       authorID: this.auth.currentUser?.uid || 'anon',
       id: questionSetID,
       ...questionSetData,
     })
-    return data
+    return questionSetID
   }
 
-  async createQuestion(questionSetID, question) {
+  async deleteSubjectOrQuestionSet(subjectID, questionSetID = null) {
+    if (questionSetID === null) {
+      const subject = await this.firestore
+        .collection(`subjects`)
+        .doc(subjectID)
+        .delete()
+    } else {
+      const collection = await this.firestore
+        .collection(`subjects/${subjectID}/questionSets`)
+        .doc(questionSetID)
+        .delete()
+    }
+  }
+
+  async setPrivate(subjectID, questionSetID = null, value = true) {
+    if (questionSetID === null) {
+      console.log(subjectID, questionSetID, value)
+      const collection = await this.firestore
+        .collection(`subjects`)
+        .doc(subjectID)
+        .update({ private: value })
+    } else {
+      const collection = await this.firestore
+        .collection(`subjects/${subjectID}/questionSets`)
+        .doc(questionSetID)
+        .update({ private: value })
+    }
+  }
+
+  async createQuestion(subjectID, questionSetID, question) {
     if (question.image) {
       question.image = await this.uploadImage('questions', question.image)
     }
-    const docRef = await this.firestore
-      .collection(`questions`)
+    const questionID = shortid.generate()
+    const docRef = this.firestore
+      .collection(`subjects/${subjectID}/questionSets`)
       .doc(questionSetID)
-      .set(
-        {
-          [shortid.generate()]: {
-            authorID: this.auth.currentUser?.uid || 'anon',
-            question,
-          },
-        },
-        { merge: true }
-      )
-    return docRef
+    const { counter } = (await docRef.get()).data()
+    await docRef.update({
+      [`questions.${questionID}`]: {
+        order: counter,
+        ...question,
+      },
+      counter: firebase.firestore.FieldValue.increment(1),
+    })
+
+    return questionID
+  }
+
+  async deleteQuestion(subjectID, questionSetID, questionID) {
+    const docRef = this.firestore
+      .collection(`subjects/${subjectID}/questionSets`)
+      .doc(questionSetID)
+    await docRef.update({
+      [`questions.${questionID}`]: firebase.firestore.FieldValue.delete(),
+    })
   }
 }
 
