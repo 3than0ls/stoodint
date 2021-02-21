@@ -16,7 +16,7 @@ export default function Carousel({ generateCarouselCards }) {
     transitionTime: 500,
   }
   return (
-    <ReactCarousel className="shadow-lg z-40 sm:h-72 xl:h-96" {...config}>
+    <ReactCarousel className="shadow-lg z-40 sm:h-72 xl:h-96 mb-4" {...config}>
       {generateCarouselCards()}
     </ReactCarousel>
   )

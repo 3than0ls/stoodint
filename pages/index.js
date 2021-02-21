@@ -1,5 +1,9 @@
-import QuestionForm from '~/client/components/QuestionForm/QuestionForm'
+import Loading from '~/client/components/common/Loading'
 
 export default function Home() {
-  return <div>home page</div>
+  return (
+    <div>
+      <Loading />
+    </div>
+  )
 }

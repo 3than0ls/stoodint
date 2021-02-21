@@ -6,11 +6,21 @@ import firebase from '~/client/firebase/Firebase'
 import AuthContext from '~/client/context/auth-context'
 import Navbar from '~/client/components/Navbar/Navbar'
 import MobileMenu from '~/client/components/Navbar/Mobile/MobileMenu'
+import Cookies from 'js-cookie'
+
 // might move head to its own component in /components
 
 export default function MyApp({ Component, pageProps }) {
   const [loggedIn, setLoggedIn] = useState(undefined)
-  firebase.auth.onAuthStateChanged((user) => setLoggedIn(!!user))
+  firebase.auth.onAuthStateChanged((user) => {
+    const value = !!user
+    setLoggedIn(value)
+    if (value) {
+      Cookies.set('loggedIn', value)
+    } else {
+      Cookies.remove('loggedIn')
+    }
+  })
 
   const router = useRouter()
 

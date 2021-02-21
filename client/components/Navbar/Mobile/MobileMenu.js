@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Icon } from '../../common/Icon'
 import LoginButton from './LoginButton'
 import authContext from '~/client/context/auth-context'
-import LoggedIn from "./LoggedIn"
+import LoggedIn from './LoggedIn'
 
 export default function MobileMenu({
   mobileMenuOpen,
@@ -28,7 +28,7 @@ export default function MobileMenu({
           onClick={() => setMobileMenuOpen(false)}
           className="cursor-pointer absolute top-0 right-0 mt-8 mr-10"
         >
-          <Icon name="exit" />
+          <Icon name="x" />
         </div>
         <p className="text-3xl mb-8 font-semibold w-full text-left">Menu</p>
         {loggedIn !== undefined &&

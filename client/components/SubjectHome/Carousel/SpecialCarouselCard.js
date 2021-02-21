@@ -9,7 +9,7 @@ export default function SpecialSetCarouselCard({ onClick, loggedIn, type }) {
     <button onClick={onClick} className="focus:outline-none w-full">
       <div className="h-64 sm:h-72 xl:h-96 relative cursor-pointer hover:scale-105 transform transition duration-300">
         <div className="text-4xl h-full absolute inset-0 pt-6 bg-opacity-50 bg-black flex flex-col justify-center items-center text-white hover:text-app-light-blue-1 ">
-          <p className="text-2xl sm:text-3xl md:text-4xl transition duration-300">
+          <p className="text-2xl sm:text-3xl md:text-4xl transition duration-300 opacity-100">
             {text[type]}
           </p>
 

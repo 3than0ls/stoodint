@@ -51,7 +51,7 @@ export default function AnswerInputs({
               !correct ? '' : 'translate-y-32'
             } absolute w-full h-full flex items-center justify-center hover:opacity-75 transform transition duration-300`}
           >
-            <Icon name="exit" color="#700" />
+            <Icon name="x" color="#700" />
           </div>
         </div>
       </div>

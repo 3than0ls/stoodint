@@ -2,6 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import firebase from '~/client/firebase/Firebase'
 import { useRouter } from 'next/router'
 import authContext from '~/client/context/auth-context'
+import { Icon } from '../common/Icon'
 
 export default function OptionsBar({ subject }) {
   const router = useRouter()
@@ -48,6 +49,13 @@ export default function OptionsBar({ subject }) {
               className={`${option.theme} w-full h-24 xl:h-20 md:w-3/4 lg:w-auto flex-1 flex items-center justify-center my-2 mx-4 text-center p-5 rounded-2xl cursor-pointer shadow-xl hover:opacity-75 transition duration-300`}
             >
               {option.name}
+              {index === 1 && (
+                <Icon
+                  className="ml-4"
+                  size={24}
+                  name={subject.private ? 'unlocked' : 'locked'}
+                />
+              )}
             </div>
           )
       )}

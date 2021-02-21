@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { Icon } from './Icon'
 
 export default function Card({ href, cardObject }) {
   const [hovering, setHovering] = useState(false)
   return (
     <div
       draggable="false"
-      className="relative overflow-hidden cursor-pointer text-white h-64 md:h-72 lg:h-96 w-full max-w-2xl mt-12 mx-12 rounded-2xl shadow-xl hover:scale-105 transform transition duration-300 ease-in-out"
+      className="relative overflow-hidden cursor-pointer text-white h-64 md:h-72 lg:h-96 w-full max-w-2xl mt-12 mx-6 xl:mx-8 rounded-2xl shadow-xl hover:scale-105 transform transition duration-300 ease-in-out"
     >
       <Link href={href}>
         <a>
@@ -23,9 +24,7 @@ export default function Card({ href, cardObject }) {
               } transform transition duration-500 text-white h-full w-full flex flex-col items-center justify-center`}
             >
               <p className="px-2 mt-4 text-xl w-full text-center break-words overflow-hidden">
-                Description: 
-                {' '}
-                {cardObject.description}
+                Description: {cardObject.description}
               </p>
             </div>
           </div>
@@ -35,10 +34,18 @@ export default function Card({ href, cardObject }) {
             className="w-full h-4/5 object-cover bg-app-blue-1 rounded-t-xl shadow-inner"
           />
           <span
-            className="text-xl lg:text-2xl px-4 lg:px-6 h-1/5 flex items-center justify-start break-words hover:underline bg-black rounded-b-2xl hover:bg-opacity-75 transition duration-500"
+            className="text-xl w-full lg:text-2xl px-4 lg:px-6 h-1/5 flex items-center justify-between hover:underline bg-black rounded-b-2xl hover:bg-opacity-75 transition duration-500"
             draggable="false"
           >
-            {cardObject.name}
+            <div
+              className={`truncate text-left ${
+                cardObject.private ? 'w-11/12' : 'w-full'
+              }`}
+            >
+              {cardObject.name}
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </div>
+            {cardObject.private && <Icon size={24} name={'locked'} />}
           </span>
         </a>
       </Link>

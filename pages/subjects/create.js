@@ -6,7 +6,7 @@ export default function Create() {
 }
 
 export function getServerSideProps(ctx) {
-  if (!ctx.req.cookies.idToken) {
+  if (!ctx.req.cookies.loggedIn) {
     return {
       redirect: {
         destination: '/',

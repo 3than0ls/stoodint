@@ -14,7 +14,7 @@ export default function AnswerBox({ index, answerMap }) {
       </div>
       <div className="hidden w-1/12 p-2 lg:flex flex-col items-center justify-center">
         <Icon
-          name={correct ? 'check' : 'exit'}
+          name={correct ? 'check' : 'x'}
           color={correct ? '#5d5' : '#f55'}
         />
       </div>

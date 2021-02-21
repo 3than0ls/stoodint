@@ -6,6 +6,7 @@ import Carousel from './Carousel/Carousel'
 import SpecialCarouselCard from './Carousel/SpecialCarouselCard'
 import SubjectGrid from './SubjectGrid'
 import AuthContext from '~/client/context/auth-context'
+import TextCreateButton from '../common/TextCreateButton'
 
 export default function Subjects({ subjects }) {
   const { loggedIn } = useContext(AuthContext)
@@ -39,9 +40,12 @@ export default function Subjects({ subjects }) {
     return cards
   }
 
-  return subjects.length > 0 ? (
+  return subjects && subjects.length > 0 ? (
     <div className="w-full flex flex-col items-center justify-evenly mt-8">
       <Carousel generateCarouselCards={generateSubjectCarouselCards} />
+      {loggedIn && (
+        <TextCreateButton createValue="subject" href="/subjects/create" />
+      )}
       <div id="subjects" className="w-full text-center mt-4">
         <SubjectGrid subjects={subjects} />
       </div>

@@ -18,6 +18,12 @@ module.exports = {
       transitionProperty: {
         height: 'height',
       },
+      rotate: {
+        22.5: '22.5deg',
+      },
+      animation: {
+        animated: 'spin pulse bounce infinite 3s',
+      },
     },
   },
   variants: {

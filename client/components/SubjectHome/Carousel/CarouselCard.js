@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Link from 'next/link'
+import authContext from '~/client/context/auth-context'
+import { Icon } from '../../common/Icon'
 
 export default function CarouselCard({ subject }) {
+  const { loggedIn } = useContext(authContext)
   const { name, description, id } = subject
   const [hovering, setHovering] = useState(false)
   return (
@@ -20,21 +23,27 @@ export default function CarouselCard({ subject }) {
                   : '-translate-y-32 bg-opacity-0 pointer-events-none'
               } transform transition duration-500 text-white flex flex-col justify-center h-full`}
             >
-              <h3 className="text-4xl">{name}</h3>
+              <h3 className="text-4xl">{`${name} ${
+                subject.private ? '[Privated]' : ''
+              }`}</h3>
               <p className="mt-4 w-full text-center break-words">
                 {description}
               </p>
             </div>
           </div>
-          <div className="text-4xl h-1/2 absolute inset-x-0 z-20 bg-opacity-80 bg-gradient-to-b from-black to-transparent">
+          <div className="text-4xl h-full absolute inset-x-0 z-20 bg-opacity-80 bg-gradient-to-b from-black to-transparent">
             <p
-              className={`${
+              className={`flex flex-col items-center justify-center h-full ${
                 !hovering
                   ? 'translate-y-0 opacity-100'
                   : '-translate-y-32 opacity-0'
               } transform transition duration-500 pt-4 text-white`}
             >
               {name}
+
+              {subject.private && (
+                <Icon className="mt-8" size={48} name={'locked'} />
+              )}
             </p>
           </div>
           <img

@@ -26,13 +26,19 @@ class Firebase {
 
   async signInWithEmailAndPassword(email, password) {
     await this.auth.signInWithEmailAndPassword(email, password)
-    const idToken = await this.auth.currentUser.getIdToken()
+    const idToken = await this.auth.currentUser.getIdToken(true)
     Cookies.set('idToken', idToken, { expires: 365 })
   }
 
   async getSubjects() {
-    const data = await this.firestore.collection('subjects').get()
-    return data.docs.map((doc) => doc.data())
+    const ref = this.firestore.collection('subjects')
+    if (!this.auth.currentUser) {
+      const data = await ref.where('private', '==', false).get()
+      return data.docs.map((doc) => doc.data())
+    } else {
+      const data = await ref.get()
+      return data.docs.map((doc) => doc.data())
+    }
   }
 
   async getSubject(subjectID) {
@@ -43,6 +49,7 @@ class Firebase {
     const subject = subjectData.data()
     const questionSetsData = await this.firestore
       .collection(`subjects/${subjectID}/questionSets`)
+      .where('private', '==', false)
       .get()
     const questionSets = questionSetsData.docs.map((doc) => doc.data())
     if (subject) {
@@ -52,14 +59,20 @@ class Firebase {
     return null
   }
 
-  async getQuestionSet(subjectID, questionSetID) {
+  async getQuestionSet(subjectID, questionSetID, getParentSubject = false) {
     const questionSetData = await this.firestore
       .collection(`subjects/${subjectID}/questionSets`)
       .doc(questionSetID)
       .get()
     const questionSet = questionSetData.data()
     if (questionSet) {
-      return [await this.getSubject(subjectID), questionSet]
+      let data
+      if (getParentSubject) {
+        data = [questionSet, await this, this.getSubject(subjectID)]
+      } else {
+        data = questionSet
+      }
+      return data
     }
     return null
   }
@@ -140,7 +153,6 @@ class Firebase {
 
   async setPrivate(subjectID, questionSetID = null, value = true) {
     if (questionSetID === null) {
-      console.log(subjectID, questionSetID, value)
       const collection = await this.firestore
         .collection(`subjects`)
         .doc(subjectID)
