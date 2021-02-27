@@ -47,7 +47,7 @@ export default function CarouselCard({ subject }) {
             </p>
           </div>
           <img
-            src={subject.bannerImage || 'innovation.png'}
+            src={subject.image.downloadURL || 'innovation.png'}
             alt="banner"
             className="z-10 w-full object-cover select-none blurred"
           />

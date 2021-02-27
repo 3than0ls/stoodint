@@ -38,8 +38,10 @@ export default function QuestionOptions({
       textColor: 'text-red-500',
       admin: true,
       onClick: useCallback(async () => {
-        await firebase.deleteQuestion(subjectID, questionSetID, questionID)
-        router.replace(router.asPath)
+        if (window.confirm('Are you sure you want to delete this question?')) {
+          await firebase.deleteQuestion(subjectID, questionSetID, questionID)
+          router.reload()
+        }
       }),
     },
   ]

@@ -45,6 +45,7 @@ export default function QuestionForm({ subjectID, questionSetID }) {
       return
     }
 
+    document.body.style.cursor = 'wait'
     try {
       await firebase.createQuestion(subjectID, questionSetID, data)
       router.push(`/subjects/${subjectID}/${questionSetID}`)
@@ -52,6 +53,7 @@ export default function QuestionForm({ subjectID, questionSetID }) {
       setError('An error has occured. Try to reload the page.')
       console.log(err)
     }
+    document.body.style.cursor = 'default'
   })
 
   return (

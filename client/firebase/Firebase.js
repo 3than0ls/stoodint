@@ -33,10 +33,13 @@ class Firebase {
   async getSubjects() {
     const ref = this.firestore.collection('subjects')
     if (!this.auth.currentUser) {
-      const data = await ref.where('private', '==', false).get()
+      const data = await ref
+        .where('private', '==', false)
+        .orderBy('created')
+        .get()
       return data.docs.map((doc) => doc.data())
     } else {
-      const data = await ref.get()
+      const data = await ref.orderBy('created').get()
       return data.docs.map((doc) => doc.data())
     }
   }
@@ -47,10 +50,19 @@ class Firebase {
       .doc(subjectID)
       .get()
     const subject = subjectData.data()
-    const questionSetsData = await this.firestore
-      .collection(`subjects/${subjectID}/questionSets`)
-      .where('private', '==', false)
-      .get()
+    let questionSetsData
+    if (!this.auth.currentUser) {
+      questionSetsData = await this.firestore
+        .collection(`subjects/${subjectID}/questionSets`)
+        .where('private', '==', false)
+        .orderBy('created')
+        .get()
+    } else {
+      questionSetsData = await this.firestore
+        .collection(`subjects/${subjectID}/questionSets`)
+        .orderBy('created')
+        .get()
+    }
     const questionSets = questionSetsData.docs.map((doc) => doc.data())
     if (subject) {
       const data = { questionSets, ...subject }
@@ -68,7 +80,7 @@ class Firebase {
     if (questionSet) {
       let data
       if (getParentSubject) {
-        data = [questionSet, await this, this.getSubject(subjectID)]
+        data = [questionSet, await this.getSubject(subjectID)]
       } else {
         data = questionSet
       }
@@ -78,25 +90,26 @@ class Firebase {
   }
 
   async uploadImage(folder, file) {
-    const snapshot = await this.storage
-      .ref()
-      .child(`${folder}/${uuidv4()}`)
-      .put(file)
+    const path = `${folder}/${uuidv4()}`
+
+    const snapshot = await this.storage.ref().child(path).put(file)
     const downloadURL = await snapshot.ref.getDownloadURL()
-    return downloadURL
+    return { downloadURL, path }
   }
 
   async createSubject(subjectData) {
     if (subjectData.image) {
-      subjectData.bannerImage = await this.uploadImage(
+      subjectData.image = await this.uploadImage(
         'subjectBanner',
         subjectData.image
       )
-      delete subjectData.image
     } else {
-      delete subjectData.image
-      subjectData.bannerImage =
-        'https://firebasestorage.googleapis.com/v0/b/stoodint-a9642.appspot.com/o/subjectBanner%2Fdefault.png?alt=media&token=4d3d18aa-2fbc-4795-9ce4-0efa2ad4d197'
+      subjectData.image = {
+        downloadURL:
+          'https://firebasestorage.googleapis.com/v0/b/stoodint-a9642.appspot.com/o/subjectBanner%2Fdefault.png?alt=media&token=4d3d18aa-2fbc-4795-9ce4-0efa2ad4d197',
+        path: 'subjectBanner/default.png',
+        default: true,
+      }
     }
     const subjectID = shortid.generate()
     await this.firestore
@@ -107,6 +120,7 @@ class Firebase {
         id: subjectID,
         authorID: this.auth.currentUser?.uid || 'anon',
         private: true,
+        created: firebase.firestore.FieldValue.serverTimestamp(),
       })
     return subjectID
   }
@@ -114,13 +128,12 @@ class Firebase {
   async createQuestionSet(subject, questionSetData) {
     // if there is a banner image supplied, otherwise just use parent subject banner
     if (questionSetData.image) {
-      questionSetData.bannerImage = await this.uploadImage(
+      questionSetData.image = await this.uploadImage(
         'questionSetBanner',
         questionSetData.image
       )
-      delete questionSetData.image
     } else {
-      questionSetData.bannerImage = subject.bannerImage
+      questionSetData.image = { ...subject.image, default: true }
     }
     const questionSetID = shortid.generate()
     const collection = this.firestore.collection(
@@ -128,10 +141,10 @@ class Firebase {
     )
     await collection.doc(questionSetID).set({
       questions: [],
-      counter: 0,
       private: true,
       authorID: this.auth.currentUser?.uid || 'anon',
       id: questionSetID,
+      created: firebase.firestore.FieldValue.serverTimestamp(),
       ...questionSetData,
     })
     return questionSetID
@@ -142,9 +155,38 @@ class Firebase {
       const subject = await this.firestore
         .collection(`subjects`)
         .doc(subjectID)
-        .delete()
+        .get()
+
+      const image = subject.get('image')
+      if (!image.default) {
+        await this.storage.ref().child(image.path).delete()
+      }
+
+      const questionSetsData = await this.firestore
+        .collection(`subjects/${subjectID}/questionSets`)
+        .get()
+      const questionSetIDs = questionSetsData.docs.map((doc) => doc.data().id)
+      for (const id of questionSetIDs) {
+        await this.deleteSubjectOrQuestionSet(subjectID, id)
+      }
+
+      await this.firestore.collection(`subjects`).doc(subjectID).delete()
     } else {
-      const collection = await this.firestore
+      const questionSet = await this.firestore
+        .collection(`subjects/${subjectID}/questionSets`)
+        .doc(questionSetID)
+        .get()
+
+      const image = questionSet.get('image')
+      if (!image.default) {
+        await this.storage.ref().child(image.path).delete()
+      }
+
+      for (const questionID in questionSet.get('questions')) {
+        await this.deleteQuestion(subjectID, questionSetID, questionID)
+      }
+
+      await this.firestore
         .collection(`subjects/${subjectID}/questionSets`)
         .doc(questionSetID)
         .delete()
@@ -173,13 +215,11 @@ class Firebase {
     const docRef = this.firestore
       .collection(`subjects/${subjectID}/questionSets`)
       .doc(questionSetID)
-    const { counter } = (await docRef.get()).data()
     await docRef.update({
       [`questions.${questionID}`]: {
-        order: counter,
+        created: firebase.firestore.FieldValue.serverTimestamp(),
         ...question,
       },
-      counter: firebase.firestore.FieldValue.increment(1),
     })
 
     return questionID
@@ -189,6 +229,12 @@ class Firebase {
     const docRef = this.firestore
       .collection(`subjects/${subjectID}/questionSets`)
       .doc(questionSetID)
+
+    const image = (await docRef.get()).get('questions')[questionID].image
+    if (image) {
+      await this.storage.ref().child(image.path).delete()
+    }
+
     await docRef.update({
       [`questions.${questionID}`]: firebase.firestore.FieldValue.delete(),
     })

@@ -7,10 +7,13 @@ import AuthContext from '~/client/context/auth-context'
 import Navbar from '~/client/components/Navbar/Navbar'
 import MobileMenu from '~/client/components/Navbar/Mobile/MobileMenu'
 import Cookies from 'js-cookie'
+import LearnQuestionContext from '~/client/context/learn-question-context'
 
 // might move head to its own component in /components
 
 export default function MyApp({ Component, pageProps }) {
+  const router = useRouter()
+
   const [loggedIn, setLoggedIn] = useState(undefined)
   firebase.auth.onAuthStateChanged((user) => {
     const value = !!user
@@ -22,7 +25,7 @@ export default function MyApp({ Component, pageProps }) {
     }
   })
 
-  const router = useRouter()
+  const [learnQuestions, setLearnQuestions] = useState([])
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [loggedInOptions] = useState([
@@ -76,7 +79,11 @@ export default function MyApp({ Component, pageProps }) {
           navLinks={navLinks}
         />
 
-        <Component {...pageProps} />
+        <LearnQuestionContext.Provider
+          value={{ learnQuestions, setLearnQuestions }}
+        >
+          <Component {...pageProps} />
+        </LearnQuestionContext.Provider>
       </div>
     </AuthContext.Provider>
   )

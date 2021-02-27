@@ -9,13 +9,13 @@ import NoValues from '../common/NoValues'
 import OptionsBar from './OptionBar'
 
 export default function Subject({ subject }) {
-  const { bannerImage, name, description, authorID, questionSets, id } = subject
+  const { image, name, description, authorID, questionSets, id } = subject
   const loggedIn = useContext(authContext)
   return (
     <Container col className="mt-2 pb-16">
       <p className="text-4xl text-white w-full text-center mb-6">Subject</p>
       <Banner
-        src={bannerImage}
+        src={image.downloadURL}
         name={`${name} ${subject.private ? '[Privated]' : ''}`}
         bottomText={`subjectID: ${id} | authorID: ${authorID}`}
         description={description}

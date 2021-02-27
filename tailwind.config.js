@@ -18,6 +18,9 @@ module.exports = {
       transitionProperty: {
         height: 'height',
       },
+      minHeight: {
+        32: '8rem',
+      },
       rotate: {
         22.5: '22.5deg',
       },

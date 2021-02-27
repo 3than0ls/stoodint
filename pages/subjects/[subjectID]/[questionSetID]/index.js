@@ -20,7 +20,7 @@ export default function QuestionSetHome({ questionSetID, subjectID }) {
         setQuestionSet(null)
       }
     }
-    getQuestionSet()
+    firebase.auth.onAuthStateChanged(getQuestionSet)
   }, [])
 
   switch (questionSet) {

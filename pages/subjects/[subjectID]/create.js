@@ -10,14 +10,13 @@ export default function CreateQuestionSetHome({ subjectID }) {
     async function getSubject() {
       try {
         let fetchedSubject = await firebase.getSubject(subjectID)
-        console.log(fetchedSubject)
         setSubject(fetchedSubject)
       } catch (err) {
         console.log(err)
         setSubject(null)
       }
     }
-    getSubject()
+    firebase.auth.onAuthStateChanged(getSubject)
   }, [])
 
   switch (subject) {

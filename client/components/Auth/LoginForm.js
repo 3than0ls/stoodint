@@ -12,6 +12,7 @@ export default function LoginForm() {
   const onSubmit = useCallback(async (data) => {
     const { email, password } = data
     try {
+      document.body.style.cursor = 'wait'
       await firebase.signInWithEmailAndPassword(email, password)
       setAuthError(false)
       if (window.history.length > 1) {
@@ -24,6 +25,7 @@ export default function LoginForm() {
       console.log(err)
       setAuthError('Username or password does not exist or is incorrect')
     }
+    document.body.style.cursor = 'default'
   })
 
   return (

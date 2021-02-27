@@ -4,12 +4,10 @@ import CreateButton from '../common/CreateButton'
 
 export default function NoSubjects() {
   const router = useRouter()
-  const onClick = () => router.push('/create')
+  const onClick = () => router.push('/subjects/create')
   return (
     <div className="text-center relative">
-      <div
-        className="transition transform duration-500 m-auto w-full bg-app-gray"
-      >
+      <div className="transition transform duration-500 m-auto w-full bg-app-gray">
         <p className="text-4xl lg:text-5xl xl:text-6xl mt-24 mb-6 text-app-green ">
           Hmm... there are no available subjects.
         </p>

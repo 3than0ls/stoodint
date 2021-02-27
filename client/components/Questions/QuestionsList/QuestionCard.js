@@ -40,9 +40,13 @@ export default function QuestionCard({
           <div className="w-full flex flex-col break-words items-center">
             <p className="text-lg w-full">{question}</p>
             {image && (
-              <a href={image} target="_blank" rel="noopener noreferrer">
+              <a
+                href={image.downloadURL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <img
-                  src={image}
+                  src={image.downloadURL}
                   alt="image"
                   className="bg-white object-contain max-h-96"
                 />

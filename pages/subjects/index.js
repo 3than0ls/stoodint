@@ -16,7 +16,7 @@ export default function SubjectsHome() {
         setSubjects([])
       }
     }
-    getSubjects()
+    firebase.auth.onAuthStateChanged(getSubjects)
   }, [])
 
   return subjects === undefined ? <Loading /> : <Subjects subjects={subjects} />

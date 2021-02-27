@@ -8,17 +8,18 @@ export default function SubjectHome({ subjectID }) {
   const [subject, setSubject] = useState(undefined)
 
   useEffect(() => {
+    // could be renamed as getQuestionSets, but i already named the component Subject rather than QuestionSets, kinda stupid of me
+    // besides, the firebase function also fetches some subject data besides just the question sets
     async function getSubject() {
       try {
         let fetchedSubject = await firebase.getSubject(subjectID)
-        console.log(fetchedSubject)
         setSubject(fetchedSubject)
       } catch (err) {
         console.log(err)
         setSubject(null)
       }
     }
-    getSubject()
+    firebase.auth.onAuthStateChanged(getSubject)
   }, [])
 
   switch (subject) {
