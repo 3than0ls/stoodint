@@ -77,12 +77,23 @@ class Firebase {
       .doc(questionSetID)
       .get()
     const questionSet = questionSetData.data()
+
+    const questionsData = await this.firestore
+      .collection(
+        `subjects/${subjectID}/questionSets/${questionSetID}/questions`
+      )
+      .orderBy('created')
+      .get()
+    const questions = questionsData.docs.map((doc) => doc.data())
+    console.log(questions)
+
     if (questionSet) {
       let data
       if (getParentSubject) {
-        data = [questionSet, await this.getSubject(subjectID)]
+        data = [{ ...questionSet, questions }, await this.getSubject(subjectID)]
       } else {
-        data = questionSet
+        data = { ...questionSet, questions }
+        console.log(data)
       }
       return data
     }
@@ -212,32 +223,31 @@ class Firebase {
       question.image = await this.uploadImage('questions', question.image)
     }
     const questionID = shortid.generate()
-    const docRef = this.firestore
-      .collection(`subjects/${subjectID}/questionSets`)
-      .doc(questionSetID)
-    await docRef.update({
-      [`questions.${questionID}`]: {
-        created: firebase.firestore.FieldValue.serverTimestamp(),
-        ...question,
-      },
-    })
+    const questionRef = this.firestore.collection(
+      `subjects/${subjectID}/questionSets/${questionSetID}/questions`
+    )
 
+    await questionRef.doc(questionID).set({
+      authorID: this.auth.currentUser?.uid || 'anon',
+      id: questionID,
+      created: firebase.firestore.FieldValue.serverTimestamp(),
+      ...question,
+    })
     return questionID
   }
 
   async deleteQuestion(subjectID, questionSetID, questionID) {
-    const docRef = this.firestore
-      .collection(`subjects/${subjectID}/questionSets`)
-      .doc(questionSetID)
+    const questionRef = this.firestore
+      .collection(
+        `subjects/${subjectID}/questionSets/${questionSetID}/questions`
+      )
+      .doc(questionID)
 
-    const image = (await docRef.get()).get('questions')[questionID].image
+    const image = (await questionRef.get()).get('image')
     if (image) {
       await this.storage.ref().child(image.path).delete()
     }
-
-    await docRef.update({
-      [`questions.${questionID}`]: firebase.firestore.FieldValue.delete(),
-    })
+    await questionRef.delete()
   }
 }
 

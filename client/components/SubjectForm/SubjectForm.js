@@ -39,7 +39,7 @@ export default function SubjectForm() {
     } catch (err) {
       console.log(err)
     }
-    document.body.style.cursor = 'default'
+    document.body.style.cursor = 'initial'
   })
 
   return (

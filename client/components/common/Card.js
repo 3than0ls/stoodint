@@ -57,7 +57,6 @@ export default function Card({ href, cardObject, openInNewTab, margin }) {
             }`}
           >
             {cardObject.name}
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
           </div>
           {cardObject.private && <Icon size={24} name={'locked'} />}
         </span>

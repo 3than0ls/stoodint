@@ -16,6 +16,7 @@ export default function QuestionForm({ subjectID, questionSetID }) {
 
   const [error, setError] = useState(undefined)
   const [imagePreview, setImagePreview] = useState(undefined)
+  const [redirect, setRedirect] = useState(false)
 
   const onDropAccepted = React.useCallback((acceptedFiles) => {
     const acceptedFile = acceptedFiles[0]
@@ -48,12 +49,16 @@ export default function QuestionForm({ subjectID, questionSetID }) {
     document.body.style.cursor = 'wait'
     try {
       await firebase.createQuestion(subjectID, questionSetID, data)
-      router.push(`/subjects/${subjectID}/${questionSetID}`)
+      if (redirect) {
+        router.push(`/subjects/${subjectID}/${questionSetID}`)
+      } else {
+        router.reload()
+      }
     } catch (err) {
       setError('An error has occured. Try to reload the page.')
       console.log(err)
     }
-    document.body.style.cursor = 'default'
+    document.body.style.cursor = 'initial'
   })
 
   return (
@@ -93,9 +98,17 @@ export default function QuestionForm({ subjectID, questionSetID }) {
         )}
         <input
           type="submit"
-          value="Submit"
+          onClick={() => setRedirect(true)}
+          value="Submit and return to question set page"
           className="mt-8 py-4 px-24 rounded-2xl transition duration-300 focus:outline-none 
-                    bg-app-blue-1 mx-auto text-white cursor-pointer hover:bg-opacity-75"
+                    bg-app-blue-1 mx-4 text-white cursor-pointer hover:bg-opacity-75"
+        />
+        <input
+          type="submit"
+          onClick={() => setRedirect(false)}
+          value="Submit and create a new question"
+          className="mt-8 py-4 px-24 rounded-2xl transition duration-300 focus:outline-none 
+                    bg-app-blue-1 mx-4 text-white cursor-pointer hover:bg-opacity-75"
         />
       </form>
     </Container>

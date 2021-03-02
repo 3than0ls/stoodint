@@ -25,7 +25,7 @@ export default function LoginForm() {
       console.log(err)
       setAuthError('Username or password does not exist or is incorrect')
     }
-    document.body.style.cursor = 'default'
+    document.body.style.cursor = 'initial'
   })
 
   return (
