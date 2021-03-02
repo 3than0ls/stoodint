@@ -100,6 +100,18 @@ class Firebase {
     return null
   }
 
+  async getQuestions(subjectID, questionSetID) {
+    console.log(`subjects/${subjectID}/questionSets/${questionSetID}/questions`)
+    const questionsData = await this.firestore
+      .collection(
+        `subjects/${subjectID}/questionSets/${questionSetID}/questions`
+      )
+      .orderBy('created')
+      .get()
+    const questions = questionsData.docs.map((doc) => doc.data())
+    return questions || null
+  }
+
   async uploadImage(folder, file) {
     const path = `${folder}/${uuidv4()}`
 
@@ -151,7 +163,6 @@ class Firebase {
       `subjects/${subject.id}/questionSets`
     )
     await collection.doc(questionSetID).set({
-      questions: [],
       private: true,
       authorID: this.auth.currentUser?.uid || 'anon',
       id: questionSetID,

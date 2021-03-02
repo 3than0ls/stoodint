@@ -1,7 +1,14 @@
 import React, { useState } from 'react'
+import StartInfo from './StartInfo'
 
 export default function Learn({ learn }) {
   //   console.log(learn)
   const [learnStats, setLearnStats] = useState({})
-  return <div>probably map learnquestions or somethin that asks questions</div>
+  const [started, setStarted] = useState(false)
+  const start = () => setStarted(true)
+  return started ? (
+    <div>testing</div>
+  ) : (
+    <StartInfo learn={learn} start={start} />
+  )
 }

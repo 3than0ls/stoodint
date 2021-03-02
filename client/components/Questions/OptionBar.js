@@ -16,6 +16,22 @@ export default function OptionsBar({ questionSet, subjectID }) {
       },
     },
     {
+      name: 'Edit',
+      theme: `bg-app-light-blue-1 text-black opacity-50 cursor-not-allowed`,
+      admin: true,
+      onClick: useCallback(async () => {
+        alert('editing has not yet been implemented and is disabled ')
+      }),
+    },
+    {
+      name: 'Take Quiz',
+      theme: `bg-app-green text-white`,
+      onClick: useCallback(async () => {
+        alert('redirect to /learn with params from here')
+        // router.push('/learn', undefined, {params})
+      }),
+    },
+    {
       name: questionSet.private ? 'Make Public' : 'Make Private',
       theme: `${
         questionSet.private ? 'bg-app-purple' : 'bg-app-dark-blue'
@@ -29,6 +45,13 @@ export default function OptionsBar({ questionSet, subjectID }) {
         )
         router.reload()
       }),
+      icon: (
+        <Icon
+          className="ml-4"
+          size={24}
+          name={questionSet.private ? 'unlocked' : 'locked'}
+        />
+      ),
     },
     {
       name: 'Delete Question Set',
@@ -55,13 +78,7 @@ export default function OptionsBar({ questionSet, subjectID }) {
               className={`${option.theme} w-full h-24 xl:h-20 md:w-3/4 lg:w-auto flex-1 flex items-center justify-center my-2 mx-4 text-center p-5 rounded-2xl cursor-pointer shadow-xl hover:opacity-75 transition duration-300`}
             >
               {option.name}
-              {index === 1 && (
-                <Icon
-                  className="ml-4"
-                  size={24}
-                  name={questionSet.private ? 'unlocked' : 'locked'}
-                />
-              )}
+              {!!option.icon && option.icon}
             </div>
           )
       )}

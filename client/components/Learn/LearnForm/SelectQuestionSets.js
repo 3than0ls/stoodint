@@ -37,7 +37,7 @@ export default function SelectQuestionSets({
       case undefined:
         return (
           <div className="w-full flex justify-center">
-            <p className="text-lg text-white">
+            <p className="text-xl text-white">
               Please select a question set first.
             </p>
           </div>
@@ -50,19 +50,18 @@ export default function SelectQuestionSets({
             onChange={(values) =>
               setSelectedQuestionSets(values.map((value) => value.value))
             }
-            closeMenuOnSelect={false}
             isMulti={true}
             components={animatedComponents}
             options={questionSets.map((questionSet) => ({
               label: questionSet.name,
-              value: questionSet.questionSet,
+              value: questionSet,
             }))}
           />
         )
     }
   }
   return (
-    <div className="mt-6 w-full lg:w-1/2 lg:ml-4 lg:min-h-32">
+    <div className="my-6 w-full lg:w-3/4">
       <Label label="2) Select question set(s)" />
       <hr className="border-white my-4" />
       {coreComponent()}

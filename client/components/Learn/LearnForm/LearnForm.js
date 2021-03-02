@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import firebase from '~/client/firebase/Firebase'
 import Card from '../../common/Card'
 import Container from '../../common/Container'
@@ -26,38 +26,56 @@ export default function LearnForm({ setLearn }) {
   const [selectedSubject, setSelectedSubject] = useState(undefined)
   const [selectedQuestionSets, setSelectedQuestionSets] = useState(undefined)
 
+  const submit = useCallback(async () => {
+    // console.log('subject', selectedSubject)
+    // console.log('question set(s)', selectedQuestionSets) // map and flatten into list of questions and setLearn() it
+    let questionsList = []
+    document.body.style.cursor = 'wait'
+    for (const questionSet of selectedQuestionSets) {
+      // questionSet in selectedQuestionSets originates from firebase getSubject(), which doesn't fetch questions subcollection in questionSets
+      // we must fetch the questions using getQuestionSets
+      let questions = await firebase.getQuestions(
+        selectedSubject.id,
+        questionSet.id
+      )
+      questionsList = [...questionsList, ...questions]
+    }
+    document.body.style.cursor = 'initial'
+    console.log(questionsList)
+    setLearn(questionsList)
+  })
+
   switch (subjects) {
     case undefined:
       return <Loading />
     default:
       return (
-        <Container col className="mb-16">
-          <div className="w-full flex flex-col lg:flex-row justify-center">
-            <SelectSubject
-              setSelectedSubject={setSelectedSubject}
-              subjects={subjects}
-              setSubjects={setSubjects}
+        <Container col className="mb-16 text-center">
+          <SelectSubject
+            setSelectedSubject={setSelectedSubject}
+            subjects={subjects}
+            setSubjects={setSubjects}
+          />
+          {selectedSubject && (
+            <Card
+              cardObject={selectedSubject}
+              href={`/subjects/${selectedSubject.id}`}
+              margin="m-0"
+              openInNewTab
             />
-            <SelectQuestionSets
-              selectedSubject={selectedSubject}
-              setSelectedQuestionSets={setSelectedQuestionSets}
-            />
-          </div>
-          <div className="w-full flex flex-col lg:flex-row justify-center mt-12">
-            <div className="hidden w-full lg:w-1/2 lg:pr-4 lg:flex justify-center">
-              {selectedSubject && (
-                <Card
-                  cardObject={selectedSubject}
-                  href={`/subjects/${selectedSubject.id}`}
-                  margin="m-0"
-                  openInNewTab
-                />
-              )}
+          )}
+          <SelectQuestionSets
+            selectedSubject={selectedSubject}
+            setSelectedQuestionSets={setSelectedQuestionSets}
+          />
+          {selectedQuestionSets && (
+            <div
+              onClick={submit}
+              className="mt-4 p-6 text-xl rounded-2xl cursor-pointer shadow-xl hover:opacity-75 transition duration-300 items-center justify-center text-white bg-app-purple"
+            >
+              Quiz yourself on these question set(s)
             </div>
-            <div className="w-full lg:w-1/2 lg:ml-4 flex items-center justify-center text-white">
-              info about question sets selected and submit button here
-            </div>
-          </div>
+          )}
         </Container>
       )
   }

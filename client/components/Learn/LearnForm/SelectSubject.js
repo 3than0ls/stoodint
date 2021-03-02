@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Label from '../../common/Form/Label'
 import Select from 'react-select'
-import firebase from '~/client/firebase/Firebase'
 
 export default function SelectSubject({ setSelectedSubject, subjects }) {
   return (
-    <div className="mt-6 w-full lg:w-1/2 lg:mr-4 lg:min-h-32">
+    <div className="mt-2 mb-6 w-full lg:w-3/4">
       <Label label="1) Select a subject" />
       <hr className="border-white my-4" />
       <Select

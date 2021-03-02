@@ -16,7 +16,9 @@ export default function Questions({ questionSet, subjectID }) {
 
   return (
     <Container col className="mt-2 pb-16">
-      <p className="text-4xl text-white w-full text-center mb-6">Subject</p>
+      <p className="text-4xl text-white w-full text-center mb-6">
+        Question Set
+      </p>
       <Banner
         src={image.downloadURL}
         name={`${name} ${questionSet.private ? '[Privated]' : ''}`}
