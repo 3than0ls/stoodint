@@ -20,8 +20,10 @@ export default function SelectQuestionSets({
     async function getQuestionSets() {
       try {
         setQuestionSets('loading')
-        let fetchedSubject = await firebase.getSubject(selectedSubject.id)
-        setQuestionSets(fetchedSubject.questionSets)
+        let fetchedQuestionSets = await firebase.getQuestionSets(
+          selectedSubject.id
+        )
+        setQuestionSets(fetchedQuestionSets)
       } catch (err) {
         console.log(err)
         setQuestionSets(undefined)
@@ -37,9 +39,7 @@ export default function SelectQuestionSets({
       case undefined:
         return (
           <div className="w-full flex justify-center">
-            <p className="text-xl text-white">
-              Please select a question set first.
-            </p>
+            <p className="text-xl text-white">Please select a subject first.</p>
           </div>
         )
       case 'loading':

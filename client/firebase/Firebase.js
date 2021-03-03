@@ -44,12 +44,24 @@ class Firebase {
     }
   }
 
-  async getSubject(subjectID) {
+  async getSubject(subjectID, getQuestionSets = false) {
     const subjectData = await this.firestore
       .collection('subjects')
       .doc(subjectID)
       .get()
     const subject = subjectData.data()
+    if (!subject) {
+      return null
+    }
+
+    if (getQuestionSets) {
+      return { questionSets: await this.getQuestionSets(subjectID), ...subject }
+    } else {
+      return subject
+    }
+  }
+
+  async getQuestionSets(subjectID) {
     let questionSetsData
     if (!this.auth.currentUser) {
       questionSetsData = await this.firestore
@@ -64,44 +76,37 @@ class Firebase {
         .get()
     }
     const questionSets = questionSetsData.docs.map((doc) => doc.data())
-    if (subject) {
-      const data = { questionSets, ...subject }
-      return data
-    }
-    return null
+    return questionSets
   }
 
-  async getQuestionSet(subjectID, questionSetID, getParentSubject = false) {
+  async getQuestionSet(subjectID, questionSetID, getQuestions = false) {
     const questionSetData = await this.firestore
       .collection(`subjects/${subjectID}/questionSets`)
       .doc(questionSetID)
       .get()
     const questionSet = questionSetData.data()
 
-    const questionsData = await this.firestore
-      .collection(
-        `subjects/${subjectID}/questionSets/${questionSetID}/questions`
-      )
-      .orderBy('created')
-      .get()
-    const questions = questionsData.docs.map((doc) => doc.data())
-    console.log(questions)
+    if (getQuestions) {
+      const questionsData = await this.firestore
+        .collection(
+          `subjects/${subjectID}/questionSets/${questionSetID}/questions`
+        )
+        .orderBy('created')
+        .get()
+      const questions = questionsData.docs.map((doc) => doc.data())
+    }
 
     if (questionSet) {
-      let data
-      if (getParentSubject) {
-        data = [{ ...questionSet, questions }, await this.getSubject(subjectID)]
+      if (getQuestions) {
+        return { ...questionSet, questions }
       } else {
-        data = { ...questionSet, questions }
-        console.log(data)
+        return questionSet
       }
-      return data
     }
     return null
   }
 
   async getQuestions(subjectID, questionSetID) {
-    console.log(`subjects/${subjectID}/questionSets/${questionSetID}/questions`)
     const questionsData = await this.firestore
       .collection(
         `subjects/${subjectID}/questionSets/${questionSetID}/questions`

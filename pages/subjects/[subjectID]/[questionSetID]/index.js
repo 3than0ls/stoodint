@@ -12,7 +12,8 @@ export default function QuestionSetHome({ questionSetID, subjectID }) {
       try {
         let fetchedQuestionSet = await firebase.getQuestionSet(
           subjectID,
-          questionSetID
+          questionSetID,
+          true
         )
         setQuestionSet(fetchedQuestionSet)
       } catch (err) {

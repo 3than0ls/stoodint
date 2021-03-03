@@ -7,7 +7,6 @@ import AuthContext from '~/client/context/auth-context'
 import Navbar from '~/client/components/Navbar/Navbar'
 import MobileMenu from '~/client/components/Navbar/Mobile/MobileMenu'
 import Cookies from 'js-cookie'
-import LearnQuestionContext from '~/client/context/learn-question-context'
 
 // might move head to its own component in /components
 
@@ -24,8 +23,6 @@ export default function MyApp({ Component, pageProps }) {
       Cookies.remove('loggedIn')
     }
   })
-
-  const [learnQuestions, setLearnQuestions] = useState([])
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [loggedInOptions] = useState([
@@ -78,12 +75,7 @@ export default function MyApp({ Component, pageProps }) {
           loggedInOptions={loggedInOptions}
           navLinks={navLinks}
         />
-
-        <LearnQuestionContext.Provider
-          value={{ learnQuestions, setLearnQuestions }}
-        >
-          <Component {...pageProps} />
-        </LearnQuestionContext.Provider>
+        <Component {...pageProps} />
       </div>
     </AuthContext.Provider>
   )

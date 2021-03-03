@@ -12,7 +12,7 @@ export default function SubjectHome({ subjectID }) {
     // besides, the firebase function also fetches some subject data besides just the question sets
     async function getSubject() {
       try {
-        let fetchedSubject = await firebase.getSubject(subjectID)
+        let fetchedSubject = await firebase.getSubject(subjectID, true)
         setSubject(fetchedSubject)
       } catch (err) {
         console.log(err)
