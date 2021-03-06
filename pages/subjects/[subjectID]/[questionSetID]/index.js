@@ -15,6 +15,7 @@ export default function QuestionSetHome({ questionSetID, subjectID }) {
           questionSetID,
           true
         )
+        console.log(fetchedQuestionSet)
         setQuestionSet(fetchedQuestionSet)
       } catch (err) {
         console.log(err)

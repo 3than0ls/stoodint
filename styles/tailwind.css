@@ -26,4 +26,8 @@
   .custom-animated {
     animation: spin 3s infinite linear, pulse 3s infinite;
   }
+
+  .min-h-screen-navbar {
+    min-height: calc(100vh - theme('height.28'));
+  }
 }

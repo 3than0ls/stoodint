@@ -21,6 +21,9 @@ module.exports = {
       minHeight: {
         32: '8rem',
       },
+      gridAutoRows: {
+        '2fr': 'minmax(0, 1)',
+      },
       rotate: {
         22.5: '22.5deg',
       },

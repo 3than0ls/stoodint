@@ -86,6 +86,7 @@ class Firebase {
       .get()
     const questionSet = questionSetData.data()
 
+    let questions
     if (getQuestions) {
       const questionsData = await this.firestore
         .collection(
@@ -93,7 +94,7 @@ class Firebase {
         )
         .orderBy('created')
         .get()
-      const questions = questionsData.docs.map((doc) => doc.data())
+      questions = questionsData.docs.map((doc) => doc.data())
     }
 
     if (questionSet) {
