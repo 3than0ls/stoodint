@@ -51,6 +51,8 @@ export default function Learn({ setView, subject, questionSets }) {
       return <Loading />
     case 'start':
       return <StartInfo />
+    case 'finish':
+      return <div>yes</div>
     default:
       /* quiz */
       return (
@@ -59,6 +61,7 @@ export default function Learn({ setView, subject, questionSets }) {
           setSelectedAnswers={setSelectedAnswers}
           questions={questions}
           setQuestions={setQuestions}
+          setSubView={setSubView}
         />
       )
   }

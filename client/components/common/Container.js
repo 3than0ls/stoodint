@@ -1,6 +1,7 @@
 import React from 'react'
 
 export default function Container(props) {
+  // variant containers dont have padding/margin
   const className = !props.variant
     ? `w-full flex ${
         props.col ? 'flex-col' : 'flex-row'

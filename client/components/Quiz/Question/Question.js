@@ -1,11 +1,11 @@
 import React from 'react'
-import Container from '../../common/Container'
 import Answers from './Answers'
 
 export default function Question({
   selectedAnswers,
   setSelectedAnswers,
   question,
+  nextQuestion,
 }) {
   const questionLength = question.question.question.length
   let fontSize = 1
@@ -20,12 +20,16 @@ export default function Question({
   }
 
   return (
-    <Container col className="justify-start pt-8">
+    <>
       <div className="w-full flex flex-col lg:flex-row lg:flex-between lg:items-center space-y-4 lg:space-y-0 space-x-0 lg:space-x-8">
         <p
-          className={`${fontSize} text-white text-center lg:text-justify flex justify-center items-center w-full lg:w-1/2 break-all pr-2`}
+          className={`${fontSize} text-white lg:text-justify flex justify-center items-center ${
+            !!question.question.image
+              ? 'w-full lg:w-1/2 text-center'
+              : 'w-full text-left'
+          }  break-all pr-2`}
         >
-          {`${question.questionIndex}) ${question.question.question}`}
+          {`${question.questionIndex + 1}) ${question.question.question}`}
         </p>
         {!!question.question.image && (
           <a
@@ -47,7 +51,8 @@ export default function Question({
         answers={question.question.answers}
         selectedAnswers={selectedAnswers}
         setSelectedAnswers={setSelectedAnswers}
+        nextQuestion={nextQuestion}
       />
-    </Container>
+    </>
   )
 }

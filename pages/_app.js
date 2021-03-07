@@ -41,8 +41,8 @@ export default function MyApp({ Component, pageProps }) {
       href: '/subjects',
     },
     {
-      name: 'Contact',
-      href: '/contact',
+      name: 'Take Quiz',
+      href: '/learn',
     },
     {
       name: 'About',

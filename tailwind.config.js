@@ -12,6 +12,7 @@ module.exports = {
         'app-green': '#0dbc79',
         'app-light-blue-1': '#bbe1fa',
         'app-light-blue-2': '#52f2f2',
+        'app-light-blue-3': '#49baeb',
         'app-light-gray': '#cfcfcf',
         'app-gray': '#191925',
       },
@@ -21,8 +22,8 @@ module.exports = {
       minHeight: {
         32: '8rem',
       },
-      gridAutoRows: {
-        '2fr': 'minmax(0, 1)',
+      scale: {
+        99: '.99',
       },
       rotate: {
         22.5: '22.5deg',
@@ -33,7 +34,9 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      scale: ['active'],
+    },
   },
   plugins: [],
 }

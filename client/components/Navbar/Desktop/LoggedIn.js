@@ -49,7 +49,7 @@ export default function LoggedIn({ loggedInOptions }) {
       >
         <div
           className={`text-center mt-2 absolute z-50 right-0 p-4 w-64 bg-white text-black ${
-            showMenu ? 'opacity-100' : 'opacity-0 select-none'
+            showMenu ? 'opacity-100' : 'opacity-0 pointer-events-none'
           } transition duration-300 shadow-2xl rounded-xl`}
         >
           Welcome <span className="font-bold">{username}</span>
