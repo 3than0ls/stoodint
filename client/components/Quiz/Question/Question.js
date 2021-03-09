@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Answers from './Answers'
 
 export default function Question({
   selectedAnswers,
   setSelectedAnswers,
   question,
+  setCompletedTime,
   nextQuestion,
 }) {
   const questionLength = question.question.question.length
@@ -19,6 +20,12 @@ export default function Question({
     fontSize = 'text-2xl lg:text-3xl'
   }
 
+  const [image, setImage] = useState(undefined)
+
+  useEffect(() => {
+    setImage(question.question.image?.downloadURL)
+  }, [question])
+
   return (
     <>
       <div className="w-full flex flex-col lg:flex-row lg:flex-between lg:items-center space-y-4 lg:space-y-0 space-x-0 lg:space-x-8">
@@ -31,14 +38,10 @@ export default function Question({
         >
           {`${question.questionIndex + 1}) ${question.question.question}`}
         </p>
-        {!!question.question.image && (
-          <a
-            href={question.question.image.downloadURL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+        {!!image && (
+          <a href={image} target="_blank" rel="noopener noreferrer">
             <img
-              src={question.question.image.downloadURL}
+              src={image}
               alt="image"
               className="object-contain max-h-96 mx-auto lg:mx-0"
             />
@@ -52,6 +55,8 @@ export default function Question({
         selectedAnswers={selectedAnswers}
         setSelectedAnswers={setSelectedAnswers}
         nextQuestion={nextQuestion}
+        setCompletedTime={setCompletedTime}
+        setImage={setImage}
       />
     </>
   )

@@ -47,10 +47,10 @@ export default function SelectQuestionSets({
       default:
         return (
           <Select
-            onChange={(values) =>
+            onChange={(values) => {
               setSelectedQuestionSets(values.map((value) => value.value))
-            }
-            isMulti={true}
+            }}
+            isMulti
             components={animatedComponents}
             options={questionSets.map((questionSet) => ({
               label: questionSet.name,

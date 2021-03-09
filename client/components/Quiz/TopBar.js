@@ -1,29 +1,9 @@
 import React from 'react'
-import { Line, Circle } from 'rc-progress'
-import { Icon } from '../common/Icon'
+import { Line } from 'rc-progress'
 
-export default function TopBar({
-  questionsLength,
-  currentQuestionIndex,
-  selectedAnswer,
-  nextQuestion,
-}) {
+export default function TopBar({ questionsLength, currentQuestionIndex }) {
   return (
     <div className="w-full h-10 mx-4 mb-2 lg:mb-4 flex items-center">
-      <div
-        onClick={() => {
-          if (selectedAnswer.selectedAnswer === undefined) {
-            document
-              .getElementById(`nextQuestionButton${currentQuestionIndex}`)
-              .scrollIntoView({ behavior: 'smooth' })
-          } else {
-            nextQuestion()
-          }
-        }}
-        className="w-auto h-full flex items-center px-4 mr-4 rounded-lg bg-app-purple cursor-pointer hover:bg-opacity-90 transition"
-      >
-        <Icon name="rightArrow" color="#FFF" width={32} height={32} />
-      </div>
       <Line
         percent={(currentQuestionIndex / questionsLength) * 100}
         strokeLinecap="round"

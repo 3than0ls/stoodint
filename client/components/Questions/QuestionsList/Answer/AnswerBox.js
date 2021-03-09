@@ -1,18 +1,30 @@
 import React from 'react'
 import { Icon } from '../../../common/Icon'
 
-export default function AnswerBox({ index, answerMap }) {
+export default function AnswerBox({
+  index,
+  answerMap,
+  highlighted = undefined,
+}) {
   const { correct, answer } = answerMap
   return (
     <div className="mx-4 mb-4 w-full text-lg flex flex-row rounded-xl shadow-lg bg-white">
       <div
-        className={`w-full lg:w-11/12 p-4 ${
-          correct ? 'bg-app-green' : 'bg-red-500'
-        } rounded-l-xl rounded-r-xl lg:rounded-r-none bg-opacity-90 break-words max-w-full`}
+        className={`flex-grow p-4 ${
+          highlighted === undefined
+            ? correct
+              ? 'bg-app-green text-white'
+              : 'bg-red-500 text-white'
+            : highlighted
+            ? 'bg-yellow-300 text-black'
+            : 'bg-white text-black'
+        } rounded-l-xl lg:rounded-r-none bg-opacity-90 break-words max-w-full`}
       >
         {`${index + 1} - ${answer}`}
       </div>
-      <div className="hidden w-1/12 p-2 lg:flex flex-col items-center justify-center">
+      <div
+        className={`md:mx-3 lg:mx-6 min-w-min p-2 flex items-center justify-center`}
+      >
         <Icon
           name={correct ? 'check' : 'x'}
           color={correct ? '#5d5' : '#f55'}

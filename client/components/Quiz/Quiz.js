@@ -1,5 +1,6 @@
 import React, { useState, useReducer } from 'react'
 import Container from '../common/Container'
+import Loading from '../common/Loading'
 import CountdownTimer from './CountdownTimer'
 import Question from './Question/Question'
 import TopBar from './TopBar'
@@ -8,6 +9,7 @@ export default function Quiz({
   selectedAnswers,
   questions,
   setSubView,
+  setQuestions,
   setSelectedAnswers,
 }) {
   window.addEventListener('beforeunload', function (e) {
@@ -24,34 +26,47 @@ export default function Quiz({
     }
   }
 
-  const [countdownStart] = useState(1)
+  const setCompletedTime = (questionIndex) => {
+    const wrapped = (time) => {
+      questions[questionIndex].completionTime = time
+      setQuestions(questions)
+    }
+    return wrapped
+  }
+
+  const [countdownStart] = useState(3)
   const [countdownNumber, countdown] = useReducer(
     (state) => Math.max(state - 1, -1),
     countdownStart
   )
 
-  return countdownNumber === -1 ? (
-    <Container variant col>
-      <Container col className="justify-start">
-        <TopBar
-          currentQuestionIndex={currentQuestionIndex}
-          questionsLength={questions.length}
-          selectedAnswer={selectedAnswers[currentQuestionIndex]}
-          nextQuestion={nextQuestion}
+  switch (questions.length) {
+    case 0:
+      return <Loading />
+    default:
+      return countdownNumber === -1 || true ? (
+        <Container variant col>
+          <Container col className="justify-start">
+            <TopBar
+              currentQuestionIndex={currentQuestionIndex}
+              questionsLength={questions.length}
+            />
+            <Question
+              setSelectedAnswers={setSelectedAnswers}
+              selectedAnswers={selectedAnswers}
+              setCompletedTime={setCompletedTime}
+              question={questions[currentQuestionIndex]}
+              nextQuestion={nextQuestion}
+              setCompletedTime={setCompletedTime(currentQuestionIndex)}
+            />
+          </Container>
+        </Container>
+      ) : (
+        <CountdownTimer
+          countdownStart={countdownStart}
+          countdownNumber={countdownNumber}
+          countdown={countdown}
         />
-        <Question
-          setSelectedAnswers={setSelectedAnswers}
-          selectedAnswers={selectedAnswers}
-          question={questions[currentQuestionIndex]}
-          nextQuestion={nextQuestion}
-        />
-      </Container>
-    </Container>
-  ) : (
-    <CountdownTimer
-      countdownStart={countdownStart}
-      countdownNumber={countdownNumber}
-      countdown={countdown}
-    />
-  )
+      )
+  }
 }

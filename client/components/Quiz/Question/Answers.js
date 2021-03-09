@@ -7,8 +7,11 @@ export default function Answers({
   selectedAnswers,
   setSelectedAnswers,
   nextQuestion,
+  setCompletedTime,
+  setImage,
 }) {
-  const [selectedAnswer, setSelectedAnswer] = useState(undefined) // used to update component, doesnt actually keep track of anything
+  const [selectedAnswer, setSelectedAnswer] = useState(undefined) // used to update component, doesnt actually keep track of anything globally
+  const [startTime, setStartTime] = useState(Date.now())
 
   const setGlobalSelectedAnswer = (answerIndex) => {
     if (selectedAnswers[questionIndex].selectedAnswer !== answerIndex) {
@@ -20,6 +23,17 @@ export default function Answers({
     }
     setSelectedAnswers(selectedAnswers)
   }
+
+  // clears selectedAnswer for next question
+  // not sure why this is in here and not in this components parent, question
+  const demountCurrentQuestion = () => {
+    setCompletedTime(Date.now() - startTime)
+    setImage(undefined)
+    setStartTime(Date.now())
+    setSelectedAnswer(undefined)
+    nextQuestion()
+  }
+
   return (
     <>
       <div
@@ -39,10 +53,7 @@ export default function Answers({
         ))}
       </div>
       <div
-        onClick={() => {
-          setSelectedAnswer(undefined)
-          nextQuestion()
-        }}
+        onClick={demountCurrentQuestion}
         id={`nextQuestionButton${questionIndex}`}
         className="mb-16 px-24 py-4 cursor-pointer text-white bg-app-purple rounded-2xl shadow-xl hover:bg-opacity-90 hover:scale-105 transform transition ease-in-out duration-500"
       >
