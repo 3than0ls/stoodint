@@ -1,9 +1,16 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState, useReducer, useEffect } from 'react'
 import Container from '../common/Container'
 import Loading from '../common/Loading'
 import CountdownTimer from './CountdownTimer'
 import Question from './Question/Question'
 import TopBar from './TopBar'
+import { useRouter } from 'next/router'
+
+function callback(e) {
+  ;(e || window.event).returnValue = 'Changes you made may not be saved.'
+
+  return
+}
 
 export default function Quiz({
   selectedAnswers,
@@ -12,15 +19,20 @@ export default function Quiz({
   setQuestions,
   setSelectedAnswers,
 }) {
-  window.addEventListener('beforeunload', function (e) {
-    ;(e || window.event).returnValue = 'Changes you made may not be saved.' //Gecko + IE
-    return
-  })
+  useEffect(() => {
+    window.addEventListener('beforeunload', callback)
+  }, [])
+
+  const router = useRouter()
+  router.events.on('routeChangeStart', () =>
+    window.removeEventListener('beforeunload', callback)
+  )
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const nextQuestion = () => {
     if (currentQuestionIndex === questions.length - 1) {
       setSubView('finish')
+      window.removeEventListener('beforeunload', callback)
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
     }
@@ -50,6 +62,7 @@ export default function Quiz({
             <TopBar
               currentQuestionIndex={currentQuestionIndex}
               questionsLength={questions.length}
+              setSubView={setSubView}
             />
             <Question
               setSelectedAnswers={setSelectedAnswers}

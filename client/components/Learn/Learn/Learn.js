@@ -33,7 +33,6 @@ export default function Learn({ setView, subject, questionSets }) {
             new Image().src = question.image.downloadURL
           }
           shuffleArray(question.answers)
-          console.log(question)
 
           flattenedQuestionList.push({
             completionTime: undefined,
