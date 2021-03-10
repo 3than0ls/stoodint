@@ -14,6 +14,7 @@ export default function Learn({ subject, questionSets }) {
 
   useEffect(() => {
     // questionSets shouldnt be able to changed after this view is rendered, but i'll add it as a dependency anyways
+    let questionCounter = 0
     async function getQuestions() {
       const flattenedAnswerList = []
       let flattenedQuestionList = []
@@ -23,7 +24,7 @@ export default function Learn({ subject, questionSets }) {
           subject.id,
           questionSet.id
         )
-        questionSetQuestions.forEach((question, questionIndex) => {
+        questionSetQuestions.forEach((question) => {
           // add empty answer, could honestly just be simplified into one value rather than this dumb object
           flattenedAnswerList.push({
             selectedAnswer: undefined /* an answerIndex */,
@@ -37,10 +38,11 @@ export default function Learn({ subject, questionSets }) {
 
           flattenedQuestionList.push({
             completionTime: undefined,
-            questionIndex,
-            answerState: flattenedAnswerList[questionIndex],
+            questionIndex: questionCounter,
+            answerState: flattenedAnswerList[questionCounter],
             question,
           })
+          questionCounter += 1
         })
       }
 

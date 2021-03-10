@@ -36,7 +36,7 @@ export default function Question({
               : 'w-full text-left'
           }  break-all pr-2`}
         >
-          {`${question.questionIndex + 1}) ${question.question.question}`}
+          {question.question.question}
         </p>
         {!!image && (
           <a href={image} target="_blank" rel="noopener noreferrer">
