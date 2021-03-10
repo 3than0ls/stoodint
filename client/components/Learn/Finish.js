@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { Circle } from 'rc-progress'
 import Container from '../common/Container'
 import convertMillsecondToString from '~/client/utils/convertTime'
@@ -7,10 +7,8 @@ import Summary from './Finish/Summary'
 import QuestionsInfo from './Finish/QuestionsInfo'
 
 export default function Finish({ subject, questionSets, questions }) {
-  const [learnStats, setLearnStats] = useState(undefined)
-
   // process question data and answers into stats
-  useEffect(() => {
+  const learnStats = useMemo(() => {
     const stats = { questionStats: [] }
     questions.forEach((question, index) => {
       const questionStats = {}
@@ -19,6 +17,7 @@ export default function Finish({ subject, questionSets, questions }) {
           ? false
           : question.question.answers[question.answerState.selectedAnswer]
               .correct
+
       questionStats.questionIndex = question.questionIndex
       questionStats.selectedAnswer = question.answerState.selectedAnswer
       questionStats.question = question.question
@@ -44,8 +43,8 @@ export default function Finish({ subject, questionSets, questions }) {
 
     stats.timestamp = Date.now()
 
-    setLearnStats(stats)
-  }, [])
+    return stats
+  }, [questions])
 
   // should add a switch statement that may put loading view if we use any async/await functions
 

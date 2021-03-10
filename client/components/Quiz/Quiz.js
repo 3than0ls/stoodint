@@ -1,15 +1,13 @@
 import React, { useState, useReducer, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Container from '../common/Container'
 import Loading from '../common/Loading'
 import CountdownTimer from './CountdownTimer'
 import Question from './Question/Question'
 import TopBar from './TopBar'
-import { useRouter } from 'next/router'
 
 function callback(e) {
   ;(e || window.event).returnValue = 'Changes you made may not be saved.'
-
-  return
 }
 
 export default function Quiz({

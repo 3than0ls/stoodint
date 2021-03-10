@@ -6,6 +6,7 @@ export default function QuestionCard({ userInput, correct, starred }) {
   const { questionIndex, answerState } = userInput
   const { image, question, answers } = userInput.question
 
+  console.log(answerState.selectedAnswer)
   const [open, setOpen] = useState(false)
   return (
     <div

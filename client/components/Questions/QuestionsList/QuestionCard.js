@@ -5,6 +5,7 @@ import AnswerList from './Answer/AnswerList'
 import QuestionOptions from './QuestionOptions'
 
 export default function QuestionCard({
+  refreshQuestionSet,
   subjectID,
   questionSetID,
   questionID,
@@ -52,8 +53,9 @@ export default function QuestionCard({
                 />
               </a>
             )}
-            <AnswerList answersList={answers} />
+            <AnswerList answersList={answers} highlighted={null} />
             <QuestionOptions
+              refreshQuestionSet={refreshQuestionSet}
               subjectID={subjectID}
               questionSetID={questionSetID}
               questionID={questionID}

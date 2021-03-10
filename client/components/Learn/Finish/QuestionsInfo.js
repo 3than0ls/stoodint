@@ -10,7 +10,6 @@ export default function QuestionsInfo({ questions }) {
           ? false
           : question.question.answers[question.answerState.selectedAnswer]
               .correct
-
       data.push(
         <QuestionCard
           key={question.questionIndex}

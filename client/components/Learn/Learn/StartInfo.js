@@ -2,7 +2,6 @@ import React from 'react'
 import Container from '../../common/Container'
 
 export default function StartInfo({ learn, start }) {
-  console.log(learn)
   return (
     <Container col>
       <div className="mt-8 lg:border-2 border-white p-2 lg:p-4 w-full max-w-4xl text-center">

@@ -10,13 +10,21 @@ import firebase from '~/client/firebase/Firebase'
 import Container from '../common/Container'
 
 export default function QuestionForm({ subjectID, questionSetID }) {
-  const { register, handleSubmit, errors, getValues, setValue } = useForm()
+  const {
+    register,
+    handleSubmit,
+    errors,
+    getValues,
+    setValue,
+    reset,
+  } = useForm()
 
   const router = useRouter()
 
   const [error, setError] = useState(undefined)
   const [imagePreview, setImagePreview] = useState(undefined)
   const [redirect, setRedirect] = useState(false)
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(0)
 
   const onDropAccepted = React.useCallback((acceptedFiles) => {
     const acceptedFile = acceptedFiles[0]
@@ -52,7 +60,15 @@ export default function QuestionForm({ subjectID, questionSetID }) {
       if (redirect) {
         router.push(`/subjects/${subjectID}/${questionSetID}`)
       } else {
-        router.reload()
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        })
+        setError(undefined)
+        setImagePreview(undefined)
+        setRedirect(false)
+        reset()
       }
     } catch (err) {
       setError('An error has occured. Try to reload the page.')
@@ -88,7 +104,8 @@ export default function QuestionForm({ subjectID, questionSetID }) {
           setValue={setValue}
           register={register}
           errors={errors}
-          getValues={getValues}
+          correctAnswerIndex={correctAnswerIndex}
+          setCorrectAnswerIndex={setCorrectAnswerIndex}
         />
         <Seperator />
         {error && (

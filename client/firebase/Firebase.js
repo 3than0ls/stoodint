@@ -253,6 +253,24 @@ class Firebase {
     return questionID
   }
 
+  async createQuestionsFromJSON(json) {
+    const obj = JSON.parse(json)
+    const subjectID = obj.subjectID || '3EOeJUG_m'
+    const questionSetID = obj.questionSetID || 'ejh1AiLR_'
+    const questions = obj.questions
+
+    const foo = async (question) => {
+      return await this.createQuestion(subjectID, questionSetID, question)
+    }
+    try {
+      const result = await Promise.all(
+        questions.map(async (question) => await foo(question))
+      )
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   async deleteQuestion(subjectID, questionSetID, questionID) {
     const questionRef = this.firestore
       .collection(

@@ -1,11 +1,7 @@
 import React from 'react'
 import { Line } from 'rc-progress'
 
-export default function TopBar({
-  questionsLength,
-  currentQuestionIndex,
-  setSubView,
-}) {
+export default function TopBar({ questionsLength, currentQuestionIndex }) {
   return (
     <div className="w-full h-10 mx-4 mb-2 lg:mb-4 flex items-center">
       <Line
@@ -20,16 +16,6 @@ export default function TopBar({
         <span className="mx-2">/</span>
         {questionsLength}
       </div>
-      {/*<div
-        onClick={() => {
-          if (confirm('Are you sure you want to end the quiz early?')) {
-            setSubView('finish')
-          }
-        }}
-        className="h-full text-black flex items-center px-4 ml-4 rounded-lg bg-white cursor-pointer hover:bg-opacity-90 transition"
-      >
-        End
-      </div>*/}
     </div>
   )
 }

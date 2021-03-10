@@ -1,17 +1,13 @@
 import React from 'react'
 import { Icon } from '../../../common/Icon'
 
-export default function AnswerBox({
-  index,
-  answerMap,
-  highlighted = undefined,
-}) {
+export default function AnswerBox({ index, answerMap, highlighted }) {
   const { correct, answer } = answerMap
   return (
     <div className="mx-4 mb-4 w-full text-lg flex flex-row rounded-xl shadow-lg bg-white">
       <div
         className={`flex-grow p-4 ${
-          highlighted === undefined
+          highlighted === null
             ? correct
               ? 'bg-app-green text-white'
               : 'bg-red-500 text-white'

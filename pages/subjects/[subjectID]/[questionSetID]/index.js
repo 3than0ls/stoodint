@@ -6,16 +6,15 @@ import firebase from '~/client/firebase/Firebase'
 
 export default function QuestionSetHome({ questionSetID, subjectID }) {
   const [questionSet, setQuestionSet] = useState(undefined)
+  const refreshQuestionSet = async () =>
+    setQuestionSet(
+      await firebase.getQuestionSet(subjectID, questionSetID, true)
+    )
 
   useEffect(() => {
     async function getQuestionSet() {
       try {
-        let fetchedQuestionSet = await firebase.getQuestionSet(
-          subjectID,
-          questionSetID,
-          true
-        )
-        setQuestionSet(fetchedQuestionSet)
+        await refreshQuestionSet()
       } catch (err) {
         console.log(err)
         setQuestionSet(null)
@@ -30,7 +29,13 @@ export default function QuestionSetHome({ questionSetID, subjectID }) {
     case undefined:
       return <Loading />
     default:
-      return <Questions questionSet={questionSet} subjectID={subjectID} />
+      return (
+        <Questions
+          refreshQuestionSet={refreshQuestionSet}
+          questionSet={questionSet}
+          subjectID={subjectID}
+        />
+      )
   }
 }
 

@@ -1,15 +1,20 @@
 import React from 'react'
 import AnswerBox from './AnswerBox'
 
-export default function AnswerList({ answersList, highlighted = undefined }) {
+export default function AnswerList({ answersList, highlighted }) {
   const generateAnswers = () => {
     const answers = []
     for (const [index, answerMap] of answersList.entries()) {
       answers.push({
         correct: answerMap.correct,
         component:
-          highlighted === undefined ? (
-            <AnswerBox key={index} index={index} answerMap={answerMap} />
+          highlighted === null ? (
+            <AnswerBox
+              key={index}
+              highlighted={null}
+              index={index}
+              answerMap={answerMap}
+            />
           ) : (
             <AnswerBox
               key={index}
@@ -22,9 +27,10 @@ export default function AnswerList({ answersList, highlighted = undefined }) {
     }
 
     if (highlighted) {
-      answers.sort((answer) => (answer.correct ? -1 : 1))
+      // answers.sort((answer) => (answer.correct ? -1 : 1))
     } else {
-      answers.sort((_, index) => (index === highlighted ? -1 : 1))
+      // answers.sort((answer) => (answer.correct ? -1 : 1))
+      // answers.sort((_, index) => (index === highlighted ? -1 : 1))
     }
     return answers.map((answer) => answer.component)
   }

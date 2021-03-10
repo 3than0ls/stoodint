@@ -6,19 +6,20 @@ import Quiz from '../../Quiz/Quiz'
 import Finish from '../Finish'
 import StartInfo from './StartInfo'
 
-export default function Learn({ setView, subject, questionSets }) {
+export default function Learn({ subject, questionSets }) {
   const [subView, setSubView] = useState('loading')
 
   const [questions, setQuestions] = useState([])
-  let [selectedAnswers, setSelectedAnswers] = useState([])
+  const [selectedAnswers, setSelectedAnswers] = useState([])
 
   useEffect(() => {
     // questionSets shouldnt be able to changed after this view is rendered, but i'll add it as a dependency anyways
     async function getQuestions() {
-      let flattenedAnswerList = []
+      const flattenedAnswerList = []
       let flattenedQuestionList = []
       for (const questionSet of questionSets) {
-        let questionSetQuestions = await firebase.getQuestions(
+        // eslint-disable-next-line no-await-in-loop
+        const questionSetQuestions = await firebase.getQuestions(
           subject.id,
           questionSet.id
         )
@@ -36,6 +37,7 @@ export default function Learn({ setView, subject, questionSets }) {
 
           flattenedQuestionList.push({
             completionTime: undefined,
+            questionIndex,
             answerState: flattenedAnswerList[questionIndex],
             question,
           })
@@ -43,11 +45,6 @@ export default function Learn({ setView, subject, questionSets }) {
       }
 
       shuffleArray(flattenedQuestionList)
-
-      flattenedQuestionList = flattenedQuestionList.map((question, index) => ({
-        questionIndex: index,
-        ...question,
-      }))
 
       setSelectedAnswers(flattenedAnswerList)
       setQuestions(flattenedQuestionList)

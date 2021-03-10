@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'
-import firebase from '~/client/firebase/Firebase'
 import { useRouter } from 'next/router'
+import firebase from '~/client/firebase/Firebase'
 import authContext from '~/client/context/auth-context'
 import { Icon } from '../common/Icon'
 

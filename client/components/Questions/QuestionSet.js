@@ -1,5 +1,4 @@
 import React from 'react'
-import { useRouter } from 'next/router'
 import NoValues from '../common/NoValues'
 import Container from '../common/Container'
 import Banner from '../common/Banner'
@@ -8,9 +7,11 @@ import QuestionsList from './QuestionsList/QuestionsList'
 import OptionsBar from './OptionBar'
 import Seperator from '../common/Seperator'
 
-export default function Questions({ questionSet, subjectID }) {
-  const router = useRouter()
-
+export default function Questions({
+  questionSet,
+  subjectID,
+  refreshQuestionSet,
+}) {
   const { image, name, description, authorID, questions, id } = questionSet
   const createHref = `/subjects/${subjectID}/${questionSet.id}/create`
 
@@ -31,6 +32,7 @@ export default function Questions({ questionSet, subjectID }) {
         <>
           <TextCreateButton createValue="question" href={createHref} />
           <QuestionsList
+            refreshQuestionSet={refreshQuestionSet}
             subjectID={subjectID}
             questionSetID={id}
             questions={questions}

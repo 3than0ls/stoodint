@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import firebase from '~/client/firebase/Firebase'
 import Card from '../../common/Card'
 import Container from '../../common/Container'
@@ -28,9 +28,9 @@ export default function LearnForm({
     firebase.auth.onAuthStateChanged(getSubjects)
   }, [])
 
-  const submit = useCallback(async () => {
+  const submit = async () => {
     setView('quiz')
-  })
+  }
 
   switch (subjects) {
     case undefined:
@@ -40,6 +40,7 @@ export default function LearnForm({
         <Container col className="mb-16 text-center">
           <SelectSubject
             subjects={subjects}
+            selectedSubject={selectedSubject}
             setSelectedSubject={setSelectedSubject}
           />
           {selectedSubject && (
@@ -52,6 +53,7 @@ export default function LearnForm({
           )}
           <SelectQuestionSets
             selectedSubject={selectedSubject}
+            selectedQuestionSets={selectedQuestionSets}
             setSelectedQuestionSets={setSelectedQuestionSets}
           />
           {selectedQuestionSets.length > 0 && (

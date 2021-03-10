@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react'
+import React, { useRef } from 'react'
 import { useRouter } from 'next/router'
 import firebase from '~/client/firebase/Firebase'
 
@@ -8,6 +8,7 @@ export default function QuestionOptions({
   questionID,
   loggedIn,
   elementID,
+  refreshQuestionSet,
 }) {
   const router = useRouter()
   const copyRef = useRef(null)
@@ -37,12 +38,13 @@ export default function QuestionOptions({
       name: 'Delete Question',
       textColor: 'text-red-500',
       admin: true,
-      onClick: useCallback(async () => {
+      onClick: async () => {
         if (window.confirm('Are you sure you want to delete this question?')) {
           await firebase.deleteQuestion(subjectID, questionSetID, questionID)
-          router.reload()
+          await refreshQuestionSet()
+          router.replace(router.asPath)
         }
-      }),
+      },
     },
   ]
 

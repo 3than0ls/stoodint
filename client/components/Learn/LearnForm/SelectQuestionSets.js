@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
+import { useRouter } from 'next/router'
 import Label from '../../common/Form/Label'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
@@ -9,9 +10,10 @@ const animatedComponents = makeAnimated()
 
 export default function SelectQuestionSets({
   setSelectedQuestionSets,
+  selectedQuestionSets,
   selectedSubject,
 }) {
-  // all the question sets from the selected subject, apply a useForm on these
+  const router = useRouter()
 
   const [questionSets, setQuestionSets] = useState(undefined)
   useEffect(() => {
@@ -34,6 +36,13 @@ export default function SelectQuestionSets({
     }
   }, [selectedSubject])
 
+  const initValues = useMemo(() => {
+    return selectedQuestionSets.map((questionSet) => ({
+      value: questionSet,
+      label: questionSet.name,
+    }))
+  }, [selectedQuestionSets])
+
   const coreComponent = () => {
     switch (questionSets) {
       case undefined:
@@ -49,9 +58,25 @@ export default function SelectQuestionSets({
           <Select
             onChange={(values) => {
               setSelectedQuestionSets(values.map((value) => value.value))
+
+              const qIDs =
+                values.map((value) => value.value.id).join('~') || undefined
+
+              const query = {
+                sID: selectedSubject.id,
+              }
+              if (qIDs) {
+                query.qIDs = qIDs
+              }
+
+              router.replace({
+                pathname: '/learn',
+                query,
+              })
             }}
             isMulti
             components={animatedComponents}
+            value={initValues}
             options={questionSets.map((questionSet) => ({
               label: questionSet.name,
               value: questionSet,

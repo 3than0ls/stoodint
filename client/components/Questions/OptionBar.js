@@ -1,6 +1,6 @@
-import React, { useCallback, useReducer, useContext } from 'react'
-import firebase from '~/client/firebase/Firebase'
+import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
+import firebase from '~/client/firebase/Firebase'
 import authContext from '~/client/context/auth-context'
 import { Icon } from '../common/Icon'
 
@@ -19,17 +19,17 @@ export default function OptionsBar({ questionSet, subjectID }) {
       name: 'Edit',
       theme: `bg-app-light-blue-1 text-black opacity-50 cursor-not-allowed`,
       admin: true,
-      onClick: useCallback(async () => {
+      onClick: () => {
         alert('editing has not yet been implemented and is disabled ')
-      }),
+      },
     },
     {
       name: 'Take Quiz',
       theme: `bg-app-green text-white`,
-      onClick: useCallback(async () => {
+      onClick: () => {
         alert('redirect to /learn with params from here')
         // router.push('/learn', undefined, {params})
-      }),
+      },
     },
     {
       name: questionSet.private ? 'Make Public' : 'Make Private',
@@ -37,14 +37,14 @@ export default function OptionsBar({ questionSet, subjectID }) {
         questionSet.private ? 'bg-app-purple' : 'bg-app-dark-blue'
       } text-white`,
       admin: true,
-      onClick: useCallback(async () => {
+      onClick: async () => {
         await firebase.setPrivate(
           subjectID,
           questionSet.id,
           !questionSet.private
         )
         router.reload()
-      }),
+      },
       icon: (
         <Icon
           className="ml-4"
@@ -57,14 +57,14 @@ export default function OptionsBar({ questionSet, subjectID }) {
       name: 'Delete Question Set',
       theme: 'bg-red-500 text-white',
       admin: true,
-      onClick: useCallback(async () => {
+      onClick: async () => {
         if (
           window.confirm('Are you sure you want to delete this question set?')
         ) {
           await firebase.deleteSubjectOrQuestionSet(subjectID, questionSet.id)
           router.push(`/subjects/${subjectID}`)
         }
-      }),
+      },
     },
   ]
   return (
