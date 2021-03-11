@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import Label from '../../common/Form/Label'
 import AnswerInputs from './AnswerInputs'
 
@@ -11,18 +11,21 @@ export default function AnswerInput({
 }) {
   const [answerNum, setAnswerNum] = useState(2)
 
-  const answers = () =>
-    [...Array(answerNum).keys()].map((num) => (
-      <AnswerInputs
-        setValue={setValue}
-        key={num}
-        register={register}
-        errors={errors}
-        index={num}
-        correctAnswerIndex={correctAnswerIndex}
-        setCorrectAnswerIndex={setCorrectAnswerIndex}
-      />
-    ))
+  const answers = useMemo(
+    () =>
+      [...Array(answerNum).keys()].map((num) => (
+        <AnswerInputs
+          setValue={setValue}
+          key={num}
+          register={register}
+          errors={errors}
+          index={num}
+          correctAnswerIndex={correctAnswerIndex}
+          setCorrectAnswerIndex={setCorrectAnswerIndex}
+        />
+      )),
+    [correctAnswerIndex, answerNum]
+  )
 
   const increaseAnswers = (e) => {
     e.stopPropagation()
@@ -36,7 +39,7 @@ export default function AnswerInput({
   return (
     <div className="flex flex-col mt-4">
       <Label label="Answers" />
-      {answers()}
+      {answers}
       <div className="w-full flex justify-center text-sm">
         <div
           className={`cursor-pointer my-4 mr-4 p-4 rounded-2xl transition duration-300 focus:outline-none ${

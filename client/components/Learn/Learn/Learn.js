@@ -34,10 +34,14 @@ export default function Learn({ subject, questionSets }) {
             // preload image
             new Image().src = question.image.downloadURL
           }
-          shuffleArray(question.answers)
+
+          if (question.shuffleAnswers) {
+            shuffleArray(question.answers)
+          }
 
           flattenedQuestionList.push({
             completionTime: undefined,
+            // questionIndex shouldnt be used in text because it is then shuffled and indexes are not in order and only in linking arrays, questionIdentifiers or questionKeys are a better name for this
             questionIndex: questionCounter,
             answerState: flattenedAnswerList[questionCounter],
             question,

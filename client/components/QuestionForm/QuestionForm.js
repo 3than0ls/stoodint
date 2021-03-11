@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { useDropzone } from 'react-dropzone'
@@ -8,6 +8,7 @@ import Seperator from '../common/Seperator'
 import ImageUpload from '~/client/components/common/Form/ImageUpload'
 import firebase from '~/client/firebase/Firebase'
 import Container from '../common/Container'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function QuestionForm({ subjectID, questionSetID }) {
   const {
@@ -25,6 +26,8 @@ export default function QuestionForm({ subjectID, questionSetID }) {
   const [imagePreview, setImagePreview] = useState(undefined)
   const [redirect, setRedirect] = useState(false)
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(0)
+  const [shuffleAnswers, setShuffleAnswers] = useState(true)
+  const [key, setKey] = useState(uuidv4())
 
   const onDropAccepted = React.useCallback((acceptedFiles) => {
     const acceptedFile = acceptedFiles[0]
@@ -46,7 +49,9 @@ export default function QuestionForm({ subjectID, questionSetID }) {
     multiple: false,
   })
 
-  const onSubmit = useCallback(async (data) => {
+  const onSubmit = async (data) => {
+    data.shuffleAnswers = shuffleAnswers
+    console.log(data)
     const oneCorrect =
       data.answers.filter((answer) => answer.correct).length === 1
     if (!oneCorrect) {
@@ -65,17 +70,19 @@ export default function QuestionForm({ subjectID, questionSetID }) {
           left: 0,
           behavior: 'smooth',
         })
+        reset()
         setError(undefined)
         setImagePreview(undefined)
         setRedirect(false)
-        reset()
+        setShuffleAnswers(true)
+        setKey(uuidv4())
       }
     } catch (err) {
       setError('An error has occured. Try to reload the page.')
       console.log(err)
     }
     document.body.style.cursor = 'initial'
-  })
+  }
 
   return (
     <Container col className="text-center mb-16">
@@ -101,12 +108,23 @@ export default function QuestionForm({ subjectID, questionSetID }) {
         />
         <Seperator />
         <AnswerInput
+          key={key}
           setValue={setValue}
           register={register}
           errors={errors}
           correctAnswerIndex={correctAnswerIndex}
           setCorrectAnswerIndex={setCorrectAnswerIndex}
         />
+        <div
+          className={`cursor-pointer w-64 mx-auto p-4 rounded-2xl transition duration-300 focus:outline-none ${
+            shuffleAnswers ? 'bg-app-blue-3' : 'bg-app-purple'
+          }`}
+          onClick={() => {
+            setShuffleAnswers(!shuffleAnswers)
+          }}
+        >
+          {shuffleAnswers ? 'Shuffle Answers' : "Don't Shuffle Answers"}
+        </div>
         <Seperator />
         {error && (
           <div className="text-app-purple mt-4 lg:mt-8 text-xl text-center">

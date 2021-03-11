@@ -3,7 +3,7 @@ import { Icon } from '../../common/Icon'
 import AnswerList from '../../Questions/QuestionsList/Answer/AnswerList'
 
 export default function QuestionCard({ userInput, correct, starred }) {
-  const { questionIndex, answerState } = userInput
+  const { answerState } = userInput
   const { image, question, answers } = userInput.question
 
   const [open, setOpen] = useState(false)
@@ -17,9 +17,7 @@ export default function QuestionCard({ userInput, correct, starred }) {
         className="cursor-pointer h-full w-full flex flex-row justify-between items-center"
         onClick={() => setOpen(!open)}
       >
-        <p className="text-2xl lg:text-3xl w-full mr-4 truncate">
-          {`${questionIndex + 1} - ${question}`}
-        </p>
+        <p className="text-2xl lg:text-3xl w-full mr-4 truncate">{question}</p>
         <div className="hover:opacity-75 transition duration-300">
           <Icon name={open ? 'upChevron' : 'downChevron'} />
         </div>

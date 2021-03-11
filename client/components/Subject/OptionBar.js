@@ -1,4 +1,5 @@
 import React, { useCallback, useContext } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import firebase from '~/client/firebase/Firebase'
 import authContext from '~/client/context/auth-context'
@@ -10,26 +11,11 @@ export default function OptionsBar({ subject }) {
   const options = [
     {
       name: `View all subjects`,
-      theme: 'bg-app-blue-1 text-white',
-      onClick: () => {
-        router.push(`/subjects`)
-      },
-    },
-    {
-      name: 'Edit',
-      theme: `bg-app-light-blue-1 text-black opacity-50 cursor-not-allowed`,
-      admin: true,
-      onClick: useCallback(async () => {
-        alert('editing has not yet been implemented and is disabled ')
-      }),
+      href: '/subjects',
     },
     {
       name: 'Take Quiz',
-      theme: `bg-app-green text-white`,
-      onClick: useCallback(async () => {
-        alert('redirect to /learn with params from here')
-        // router.push('/learn', undefined, {params})
-      }),
+      href: `/learn?sID=${subject.id}`,
     },
     {
       name: subject.private ? 'Make Public' : 'Make Private',
@@ -65,16 +51,31 @@ export default function OptionsBar({ subject }) {
     <div className="w-full flex flex-col lg:flex-row justify-center items-center my-6">
       {options.map(
         (option, index) =>
-          (!option.admin || loggedIn === option.admin) && (
+          (!option.admin || loggedIn === option.admin) &&
+          (option.href ? (
+            <Link key={index} href={option.href}>
+              <a
+                key={index}
+                className={`${
+                  option.theme || 'bg-app-blue-1 text-white'
+                } w-full h-24 xl:h-20 md:w-3/4 lg:w-auto flex-1 flex items-center justify-center my-2 mx-4 text-center p-5 rounded-2xl cursor-pointer shadow-xl hover:opacity-75 transition duration-300`}
+              >
+                {option.name}
+                {!!option.icon && option.icon}
+              </a>
+            </Link>
+          ) : (
             <div
               key={index}
               onClick={option.onClick}
-              className={`${option.theme} w-full h-24 xl:h-20 md:w-3/4 lg:w-auto flex-1 flex items-center justify-center my-2 mx-4 text-center p-5 rounded-2xl cursor-pointer shadow-xl hover:opacity-75 transition duration-300`}
+              className={`${
+                option.theme || 'bg-app-blue-1 text-white'
+              } w-full h-24 xl:h-20 md:w-3/4 lg:w-auto flex-1 flex items-center justify-center my-2 mx-4 text-center p-5 rounded-2xl cursor-pointer shadow-xl hover:opacity-75 transition duration-300`}
             >
               {option.name}
               {!!option.icon && option.icon}
             </div>
-          )
+          ))
       )}
     </div>
   )
