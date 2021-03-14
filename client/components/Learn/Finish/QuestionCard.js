@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { Icon } from '../../common/Icon'
 import AnswerList from '../../Questions/QuestionsList/Answer/AnswerList'
 
-export default function QuestionCard({ userInput, correct, starred }) {
+export default function QuestionCard({ userInput, correct }) {
   const { answerState } = userInput
-  const { image, question, answers } = userInput.question
+  const { image, question, answers, shuffleAnswers } = userInput.question
 
   const [open, setOpen] = useState(false)
   return (
@@ -43,6 +43,7 @@ export default function QuestionCard({ userInput, correct, starred }) {
           </div>
           <AnswerList
             answersList={answers}
+            shuffleAnswers={shuffleAnswers}
             highlighted={answerState.selectedAnswer}
           />
         </>

@@ -35,13 +35,12 @@ class Firebase {
     if (!this.auth.currentUser) {
       const data = await ref
         .where('private', '==', false)
-        .orderBy('created')
+        // .orderBy('created')
         .get()
       return data.docs.map((doc) => doc.data())
-    } else {
-      const data = await ref.orderBy('created').get()
-      return data.docs.map((doc) => doc.data())
     }
+    const data = await ref.orderBy('created').get()
+    return data.docs.map((doc) => doc.data())
   }
 
   async getSubject(subjectID, getQuestionSets = false) {
@@ -56,9 +55,8 @@ class Firebase {
 
     if (getQuestionSets) {
       return { questionSets: await this.getQuestionSets(subjectID), ...subject }
-    } else {
-      return subject
     }
+    return subject
   }
 
   async getQuestionSets(subjectID) {
@@ -67,7 +65,7 @@ class Firebase {
       questionSetsData = await this.firestore
         .collection(`subjects/${subjectID}/questionSets`)
         .where('private', '==', false)
-        .orderBy('created')
+        // .orderBy('created')
         .get()
     } else {
       questionSetsData = await this.firestore
@@ -100,9 +98,8 @@ class Firebase {
     if (questionSet) {
       if (getQuestions) {
         return { ...questionSet, questions }
-      } else {
-        return questionSet
       }
+      return questionSet
     }
     return null
   }
@@ -223,12 +220,12 @@ class Firebase {
 
   async setPrivate(subjectID, questionSetID = null, value = true) {
     if (questionSetID === null) {
-      const collection = await this.firestore
+      await this.firestore
         .collection(`subjects`)
         .doc(subjectID)
         .update({ private: value })
     } else {
-      const collection = await this.firestore
+      await this.firestore
         .collection(`subjects/${subjectID}/questionSets`)
         .doc(questionSetID)
         .update({ private: value })
@@ -263,9 +260,7 @@ class Firebase {
       return await this.createQuestion(subjectID, questionSetID, question)
     }
     try {
-      const result = await Promise.all(
-        questions.map(async (question) => await foo(question))
-      )
+      await Promise.all(questions.map(async (question) => await foo(question)))
     } catch (err) {
       console.log(err)
     }

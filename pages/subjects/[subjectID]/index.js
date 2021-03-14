@@ -6,20 +6,29 @@ import firebase from '~/client/firebase/Firebase'
 
 export default function SubjectHome({ subjectID }) {
   const [subject, setSubject] = useState(undefined)
+  const [isMounted, setMounted] = useState(true)
 
   useEffect(() => {
     // could be renamed as getQuestionSets, but i already named the component Subject rather than QuestionSets, kinda stupid of me
     // besides, the firebase function also fetches some subject data besides just the question sets
     async function getSubject() {
-      try {
-        let fetchedSubject = await firebase.getSubject(subjectID, true)
-        setSubject(fetchedSubject)
-      } catch (err) {
-        console.log(err)
-        setSubject(null)
+      if (isMounted) {
+        try {
+          let fetchedSubject = await firebase.getSubject(subjectID, true)
+          setSubject(fetchedSubject)
+        } catch (err) {
+          console.log(err)
+          setSubject(null)
+        }
       }
     }
     firebase.auth.onAuthStateChanged(getSubject)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      setMounted(false)
+    }
   }, [])
 
   switch (subject) {

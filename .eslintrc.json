@@ -8,8 +8,6 @@
   "parser": "babel-eslint",
   "extends": [
     "eslint:recommended",
-    "airbnb",
-    "airbnb/hooks",
     "plugin:react/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
@@ -30,6 +28,9 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "alias": [["~", "./"]]
     }
   },
   "plugins": ["react", "react-hooks", "unused-imports"],

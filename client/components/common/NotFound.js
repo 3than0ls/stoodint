@@ -5,11 +5,11 @@ export default function NotFound() {
   return (
     <div className="w-full text-center mt-12 mx-auto">
       <p className="text-4xl mb-6 text-app-green ">
-        Hmm... this page doesn't appear to exist. Try refreshing or
+        Hmm... this page does not appear to exist. Try refreshing.
       </p>
       <Link href="/">
         <a className="text-2xl xl:text-3xl text-app-blue-3 hover:opacity-90 underline transition duration-300">
-          returning to the home page
+          Return to the home page
         </a>
       </Link>
       <img

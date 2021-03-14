@@ -9,7 +9,7 @@ export default function AnswerInput({
   correctAnswerIndex,
   setCorrectAnswerIndex,
 }) {
-  const [answerNum, setAnswerNum] = useState(2)
+  const [answerNum, setAnswerNum] = useState(5)
 
   const answers = useMemo(
     () =>

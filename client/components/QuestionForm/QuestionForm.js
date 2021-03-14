@@ -50,12 +50,13 @@ export default function QuestionForm({ subjectID, questionSetID }) {
   })
 
   const onSubmit = async (data) => {
+    data.answers = data.answers.filter((answer) => answer.answer)
+
     data.shuffleAnswers = shuffleAnswers
-    console.log(data)
     const oneCorrect =
       data.answers.filter((answer) => answer.correct).length === 1
     if (!oneCorrect) {
-      setError('There must be one and only one correct answer.')
+      setError('There must be at least one and only one correct answer.')
       return
     }
 
@@ -74,6 +75,7 @@ export default function QuestionForm({ subjectID, questionSetID }) {
         setError(undefined)
         setImagePreview(undefined)
         setRedirect(false)
+        setCorrectAnswerIndex(0)
         setShuffleAnswers(true)
         setKey(uuidv4())
       }
@@ -116,14 +118,16 @@ export default function QuestionForm({ subjectID, questionSetID }) {
           setCorrectAnswerIndex={setCorrectAnswerIndex}
         />
         <div
-          className={`cursor-pointer w-64 mx-auto p-4 rounded-2xl transition duration-300 focus:outline-none ${
+          className={`cursor-pointer w-64 mx-auto p-4 rounded-2xl hover:bg-opacity-75 transition duration-300 focus:outline-none ${
             shuffleAnswers ? 'bg-app-blue-3' : 'bg-app-purple'
           }`}
           onClick={() => {
             setShuffleAnswers(!shuffleAnswers)
           }}
         >
-          {shuffleAnswers ? 'Shuffle Answers' : "Don't Shuffle Answers"}
+          {shuffleAnswers
+            ? 'Answers will be shuffled'
+            : 'Answers will not be shuffled'}
         </div>
         <Seperator />
         {error && (

@@ -1,7 +1,12 @@
 import React from 'react'
+import Question from '~/client/components/Quiz/Question/Question'
 import AnswerBox from './AnswerBox'
 
-export default function AnswerList({ answersList, highlighted }) {
+export default function AnswerList({
+  answersList,
+  highlighted,
+  shuffleAnswers,
+}) {
   const generateAnswers = () => {
     const answers = []
     for (const [index, answerMap] of answersList.entries()) {
@@ -25,12 +30,8 @@ export default function AnswerList({ answersList, highlighted }) {
           ),
       })
     }
-
-    if (highlighted) {
-      // answers.sort((answer) => (answer.correct ? -1 : 1))
-    } else {
-      // answers.sort((answer) => (answer.correct ? -1 : 1))
-      // answers.sort((_, index) => (index === highlighted ? -1 : 1))
+    if (shuffleAnswers) {
+      answers.sort((answer) => (answer.correct ? -1 : 1))
     }
     return answers.map((answer) => answer.component)
   }

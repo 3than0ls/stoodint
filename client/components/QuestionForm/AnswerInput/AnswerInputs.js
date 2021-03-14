@@ -23,11 +23,11 @@ export default function AnswerInputs({
         <div className="text-app-blue-2 text-left">This field is required</div>
       )}
       <div className="flex h-auto items-center">
-        <input
+        <textarea
           name={`answers[${index}].answer`}
           placeholder={`Enter answer ${index + 1} here`}
           ref={register({ required: true })}
-          className="rounded-l-lg flex-grow bg-gray-100 h-32 hover:bg-gray-200 outline-none transition p-3 border-t-2 border-b-2 border-l-2 border-gray-600"
+          className="resize-none rounded-l-lg flex-grow bg-gray-100 h-32 hover:bg-gray-200 outline-none transition p-3 border-t-2 border-b-2 border-l-2 border-gray-600"
           autoComplete="off"
           autoCorrect="off"
         />

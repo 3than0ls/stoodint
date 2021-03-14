@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import firebase from '~/client/firebase/Firebase'
 
@@ -7,24 +7,10 @@ export default function QuestionOptions({
   questionSetID,
   questionID,
   loggedIn,
-  elementID,
   refreshQuestionSet,
 }) {
   const router = useRouter()
-  const copyRef = useRef(null)
   const options = [
-    {
-      name: 'Copy Question Link',
-      textColor: 'text-app-blue-2',
-      onClick: () => {
-        const link = copyRef.current
-        link.select()
-        document.execCommand('copy')
-        document
-          .getElementById(elementID)
-          .scrollIntoView({ behavior: 'smooth' })
-      },
-    },
     {
       name: 'Edit Question',
       textColor: 'text-app-purple',
@@ -72,14 +58,6 @@ export default function QuestionOptions({
 
   return (
     <div className="w-full bg-white rounded-xl shadow-xl flex mt-2">
-      <form className="hidden">
-        <textarea
-          ref={copyRef}
-          readOnly
-          value={router.asPath + '#' + elementID}
-        />
-      </form>
-
       {generateOptions()}
     </div>
   )

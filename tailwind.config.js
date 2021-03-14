@@ -19,6 +19,9 @@ module.exports = {
       transitionProperty: {
         height: 'height',
       },
+      transitionDuration: {
+        2000: '2000ms',
+      },
       minHeight: {
         32: '8rem',
       },

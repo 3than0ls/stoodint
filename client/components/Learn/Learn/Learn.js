@@ -17,9 +17,9 @@ export default function Learn({ subject, questionSets }) {
     let questionCounter = 0
     async function getQuestions() {
       const flattenedAnswerList = []
-      let flattenedQuestionList = []
-      for (const questionSet of questionSets) {
-        // eslint-disable-next-line no-await-in-loop
+      const flattenedQuestionList = []
+
+      const populateLists = async (questionSet) => {
         const questionSetQuestions = await firebase.getQuestions(
           subject.id,
           questionSet.id
@@ -41,6 +41,7 @@ export default function Learn({ subject, questionSets }) {
 
           flattenedQuestionList.push({
             completionTime: undefined,
+            questionSet,
             // questionIndex shouldnt be used in text because it is then shuffled and indexes are not in order and only in linking arrays, questionIdentifiers or questionKeys are a better name for this
             questionIndex: questionCounter,
             answerState: flattenedAnswerList[questionCounter],
@@ -50,6 +51,11 @@ export default function Learn({ subject, questionSets }) {
         })
       }
 
+      await Promise.all(
+        questionSets.map((questionSet) => populateLists(questionSet))
+      )
+
+      console.log(flattenedQuestionList)
       shuffleArray(flattenedQuestionList)
 
       setSelectedAnswers(flattenedAnswerList)
@@ -58,7 +64,7 @@ export default function Learn({ subject, questionSets }) {
     getQuestions()
     setSubView('quiz')
     // setSubView('finish')
-  }, [questionSets])
+  }, [questionSets, subject])
 
   switch (subView) {
     case 'loading':

@@ -16,7 +16,7 @@ export default function QuestionSetGrid({ subject, questionSets }) {
     return cards
   }
   return (
-    <div className="w-full flex flex-row justify-evenly flex-wrap mt-2">
+    <div className="w-full flex flex-row justify-center flex-wrap mt-2 space-x-8">
       {generateCards()}
     </div>
   )

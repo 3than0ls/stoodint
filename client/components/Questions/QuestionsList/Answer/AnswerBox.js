@@ -16,7 +16,7 @@ export default function AnswerBox({ index, answerMap, highlighted }) {
             : 'bg-white text-black'
         } rounded-l-xl lg:rounded-r-none bg-opacity-90 break-words max-w-full`}
       >
-        {`${index + 1} - ${answer}`}
+        {answer}
       </div>
       <div
         className={`md:mx-3 lg:mx-6 min-w-min p-2 flex items-center justify-center`}

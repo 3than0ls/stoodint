@@ -13,7 +13,7 @@ export default function QuestionCard({
   index,
 }) {
   const { loggedIn } = useContext(authContext)
-  const { question, answers, image } = questionMap
+  const { question, answers, image, shuffleAnswers } = questionMap
   const elementID = `${questionID}-${index}`
   const [open, setOpen] = useState(false)
   useEffect(() => {
@@ -53,7 +53,11 @@ export default function QuestionCard({
                 />
               </a>
             )}
-            <AnswerList answersList={answers} highlighted={null} />
+            <AnswerList
+              answersList={answers}
+              highlighted={null}
+              shuffleAnswers={shuffleAnswers}
+            />
             <QuestionOptions
               refreshQuestionSet={refreshQuestionSet}
               subjectID={subjectID}

@@ -10,8 +10,9 @@ export default function StartInfo({ learn, start }) {
           question(s) in this quiz.
         </p>
         <p className="text-2xl mt-2 text-app-purple">
-          You can stop and end the quiz at any time. There is no time limit, but
-          there will be a timer recording your time.
+          Once you click an answer and press the continue button, you cannot
+          return to it. Results will be shown upon completion of the entire
+          quiz.
         </p>
       </div>
       <div

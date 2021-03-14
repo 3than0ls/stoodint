@@ -19,7 +19,7 @@ export default function SubjectGrid({ subjects }) {
     <div
       className={` transition transform duration-500 w-full flex flex-col pb-16 bg-app-gray`}
     >
-      <div className="w-full flex flex-row justify-center flex-wrap mt-2">
+      <div className="w-full flex flex-row justify-center flex-wrap mt-2 space-x-8">
         {generateCards()}
       </div>
     </div>

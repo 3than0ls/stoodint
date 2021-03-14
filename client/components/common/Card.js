@@ -38,7 +38,7 @@ export default function Card({ href, cardObject, openInNewTab, margin }) {
             } transform transition duration-500 text-white h-full w-full flex flex-col items-center justify-center`}
           >
             <p className="px-2 mt-4 text-xl w-full text-center break-words overflow-hidden">
-              Description: {cardObject.description}
+              {cardObject.description}
             </p>
           </div>
         </div>
