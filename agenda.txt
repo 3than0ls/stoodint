@@ -1,0 +1,30 @@
+TO DO:
+
+:( find motivation
+
+home page
+THINGS TO INCLUDE ON HOME PAGE: use seperators to spit between, maybe some animations based on scroll?
+1) tagline with Welcome to shit
+2) practice option shit (use lightbulb img)
+3) view all subjects + create ur own
+4) contact dev (small)
+5) view devblog (small)
+
+
+
+star questions and re-implement filtering system
+edit questionSets and questions
+start page thing
+sort answers based on if its correct or not
+create about page
+successfully created alert when successfully created anything
+
+
+
+FUTURE POSSIBILITIES:
+improve favicon?
+grades text color map
+create firestore rules writing schemas so no invalid data is put to database (tbh will be too lazy to do this)
+restructure database to seperate answers from questions
+global message system for errors and stuff (use a message queue)
+remove index numbers cuz they arent neccesary in quizzes (or anywhere really)
