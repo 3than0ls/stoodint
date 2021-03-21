@@ -26,28 +26,29 @@ export default function QuestionsInfo({ questions }) {
     return data
   }, [questions])
 
-  const [filters, setFilters] = useState([])
+  const [filter, setFilter] = useState(false)
 
   useEffect(() => {
-    let filtered = questionsData
-    // eslint-disable-next-line no-restricted-syntax
-    for (const filter of filters) {
-      if (filter === 'incorrect') {
-        filtered = filtered.filter((questionData) => !questionData.correct)
-      }
+    if (filter) {
+      setFilteredQuestionsData(
+        questionsData.filter((questionData) => !questionData.correct)
+      )
+    } else {
+      setFilteredQuestionsData(questionsData)
     }
-    setFilteredQuestionsData(filtered)
-  }, [filters, questionsData])
+  }, [filter, questionsData])
 
   return (
-    <div className="mt-6 w-full mb-16">
-      <p
-        className="text-center text-white text-4xl my-4"
-        onClick={() => setFilters(['incorrect'])}
+    <div className="mt-6 w-full mb-16 flex flex-col items-center">
+      <p className="text-center text-white text-4xl my-4">Questions</p>
+      <button
+        className="text-center mb-4 bg-app-blue-2 rounded-2xl p-4 hover:bg-opacity-75 focus:outline-none transition text-white"
+        onClick={() => setFilter(!filter)}
       >
-        Questions
-      </p>
-
+        {!filter
+          ? 'Only show questions that were answered incorrectly'
+          : 'Show all questions'}
+      </button>
       <div className="flex flex-col w-full space-y-8">
         {filteredQuestionsData.map((questionData) => questionData.component)}
       </div>
